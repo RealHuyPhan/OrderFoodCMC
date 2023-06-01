@@ -1,10 +1,14 @@
 import './App.css'
+import HeadNav from './common/HeadNav'
 
 function App() {
 
   return (
     <div className=''>
-      Hello world
+      <HeadNav />
+      <div className='mt-20 relative'> 
+        123
+      </div>
     </div>
   )
 }

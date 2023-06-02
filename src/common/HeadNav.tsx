@@ -15,6 +15,9 @@ export default function HeadNav() {
                     Tất cả đơn hàng
                 </button>
                 <button>
+                    Vote
+                </button>
+                <button>
                     Đồ ăn
                 </button>
                 <button>

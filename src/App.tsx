@@ -7,6 +7,8 @@ import HistoryOrder from './pages/User/HistoryOrder'
 import ListFood from './pages/User/ListFood'
 import Profile from './pages/User/Profile'
 import ListOrder from './pages/User/ListOrder'
+import Login from './pages/Login'
+import Register from './pages/Register'
 
 
 function App() {
@@ -21,6 +23,8 @@ function App() {
         <Route path='list-food' element={<ListFood />} />
         <Route path='profile' element={<Profile />} />
         <Route path='list-order' element={<ListOrder />} />
+        <Route path='/login' element={<Login />} />
+        <Route path='/register' element={<Register />} />
       </Routes>
     </div>
   )

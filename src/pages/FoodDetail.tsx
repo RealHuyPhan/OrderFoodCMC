@@ -3,6 +3,8 @@ import defaultFood from '../assets/default_food_img.png'
 import defaultStore from '../assets/defaultFoodStore.png'
 import { FaMoneyBillWave } from 'react-icons/fa'
 import PrimaryButton from '../common/PrimaryButton'
+import SmallSizeSearch from '../common/SmallSizeSearch'
+
 
 export default function FoodDetail() {
     const handleOrder = () => {
@@ -20,8 +22,9 @@ export default function FoodDetail() {
                         <form className='flex-1'>
                             <h2 className='font-semibold text-3xl my-1'>Combo Kimbap chiên và 1 gà rán</h2>
                             <p>Combo gồm 12 miếng kimbap chiên và 1 gà rán (Tùy chọn đùi hoặc cánh..)</p>
-                            <div className='my-3'>Component reate star</div>
+                            <div className='my-3'>Component reate star</div>            
                             <div className='flex'>
+                                
                                 <FaMoneyBillWave className="text-3xl text-blue-600" />
                                 <p className='ml-3'>: 72 000vnđ</p>
                             </div>
@@ -44,8 +47,9 @@ export default function FoodDetail() {
                             </PrimaryButton>
                         </form>
                     </div>
-                    <div className='flex items-center'>
+                    <div className='flex items-center justify-between'>
                         <h2 className='font-semibold ml-5 mt-5'>Các món ăn trong cửa hàng:</h2>
+                        <SmallSizeSearch placeholder='Tìm kiếm' width={200}></SmallSizeSearch>
                     </div>
                 </div>
             </div>

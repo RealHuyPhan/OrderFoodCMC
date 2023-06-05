@@ -2,6 +2,7 @@ import HeadNav from '../common/HeadNav'
 import defaultFood from '../assets/default_food_img.png'
 import defaultStore from '../assets/defaultFoodStore.png'
 import { FaMoneyBillWave } from 'react-icons/fa'
+import SmallSizeSearch from '../common/SmallSizeSearch'
 
 export default function FoodStore() {
     return (
@@ -23,8 +24,10 @@ export default function FoodStore() {
                             </div>
                         </div>
                     </div>
-                    <div className='flex items-center'>
+                    <div className='flex items-center justify-between'>
                         <h2 className='font-semibold ml-5 mt-5'>Các món ăn trong cửa hàng:</h2>
+                        <SmallSizeSearch placeholder='Tìm kiếm' width={200}></SmallSizeSearch>
+
                     </div>
                 </div>
             </div>

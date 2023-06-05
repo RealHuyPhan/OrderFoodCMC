@@ -9,6 +9,7 @@ export default function HistoryOrder() {
                 <div className='w-full'>
                     <h1 className='font-semibold text-4xl mb-7 flex items-center justify-center'>Đơn hàng</h1>
                     <div className='flex items-center'>
+                            
                         <h2 className='font-semibold ml-5'>Các đơn hàng bạn đã đặt:</h2>
                     </div>
                 </div>

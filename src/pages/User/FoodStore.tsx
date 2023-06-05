@@ -1,6 +1,6 @@
-import HeadNav from '../common/HeadNav'
-import defaultFood from '../assets/default_food_img.png'
-import defaultStore from '../assets/defaultFoodStore.png'
+import HeadNav from '../../common/HeadNav'
+import defaultFood from '../../assets/default_food_img.png'
+import defaultStore from '../../assets/defaultFoodStore.png'
 import { FaMoneyBillWave } from 'react-icons/fa'
 
 export default function FoodStore() {

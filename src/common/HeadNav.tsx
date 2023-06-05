@@ -1,36 +1,34 @@
+import { Link } from 'react-router-dom'
 import { BiCookie } from 'react-icons/bi'
 
 export default function HeadNav() {
     return (
-        <div className="bg-white fixed top-0 right-0 left-0 flex justify-around h-20 shadow-md">
+        <div className="bg-white fixed top-0 right-0 left-0 flex justify-around h-20 shadow-md z-20">
             <div className='text-2xl font-semibold flex items-center gap-2'>
                 <BiCookie />
-                <button>Đặt cơm CMC</button>
+                <Link to={"/"}>Đặt cơm CMC</Link>
             </div>
             <div className="flex items-center gap-4 font-medium">
-                <button>
+                <Link to={"/"}>
                     Trang chủ
-                </button>
-                <button>
+                </Link>
+                <Link to={'/list-order'}>
                     Tất cả đơn hàng
-                </button>
+                </Link>
                 <button>
                     Vote
                 </button>
-                <button>
-                    Đồ ăn
-                </button>
-                <button>
+                <Link to={'/list-food'}>
                     Cửa hàng
-                </button>
-                <button>
-                    Đồ đã đặt
-                </button>
-                <button>
+                </Link>
+                <Link to={'/profile'}>
                     Profile
-                </button>
-                <button>
+                </Link>
+                <Link to={'/history-order'}>
                     Giỏ hàng
+                </Link>
+                <button>
+                    Đăng nhập
                 </button>
             </div>
         </div>

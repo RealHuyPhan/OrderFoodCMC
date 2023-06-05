@@ -1,5 +1,5 @@
-import HeadNav from '../common/HeadNav'
-import defaultFood from '../assets/default_food_img.png'
+import HeadNav from '../../common/HeadNav'
+import defaultFood from '../../assets/default_food_img.png'
 import { BsSearch } from 'react-icons/bs'
 
 export default function ListFood() {

@@ -25,7 +25,7 @@ export const SmallSizeSearch = (
                         <div className='flex items-center w-4/5 h-10 border-[1px] rounded-full bg-gray-200'>
                             <BsSearch className="m-4" />
                             <input type={type} placeholder={placeholder} style={{ width: `${width}px`, height: `${height}px`, fontSize: `${fontsize}px`, fontWeight: `${fontWeight}px` }}
-                            className="bg-gray-200 text-[#1D1D1D]"/>
+                            className="focus:outline-none bg-gray-200 text-[#1D1D1D]"/>
                         </div>
                     </div>
     )

@@ -1,20 +1,21 @@
 import './App.css'
-import LandingPage from './components/LandingPage'
-import FoodDetail from './pages/FoodDetail'
-import FoodStore from './pages/FoodStore'
-import HistoryOrder from './pages/HistoryOrder'
-import ListFood from './pages/ListFood'
-import LoginForm from './pages/LoginForm'
-import RegisterForm from './pages/RegisterForm'
+import BoxFoodDetail from './common/BoxFoodDetail'
+import LandingPage from './pages/LandingPage'
+import FoodDetail from './pages/User/FoodDetail'
+import FoodStore from './pages/User/FoodStore'
+import HomePage from './pages/User/HomePage'
+import ListFood from './pages/User/ListFood'
+
 
 
 function App() {
 
   return (
     <div>
-      <LoginForm/>
+      <HomePage />
     </div>
   )
 }
 
 export default App
+

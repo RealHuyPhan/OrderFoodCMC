@@ -5,7 +5,7 @@ import InputPasswordForm from "../common/InputPasswordForm";
 
 export default function LoginForm() {
   return (
-    <div className="m-0 p-0 bg-black flex justify-center">
+    <div className="m-0 p-0 flex justify-center">
       <div className="w-[400px] h-[800px] mt-14 mb-10 bg-white flex flex-col items-center">
         <img className="w-2/3 " src="src\assets\cmc.png" alt="" />
         <div className="w-1/3 h-20 flex justify-center items-center">

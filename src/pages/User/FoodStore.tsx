@@ -1,8 +1,8 @@
-import HeadNav from '../common/HeadNav'
-import defaultFood from '../assets/default_food_img.png'
-import defaultStore from '../assets/defaultFoodStore.png'
+import HeadNav from '../../common/HeadNav'
+import defaultFood from '../../assets/default_food_img.png'
+import defaultStore from '../../assets/defaultFoodStore.png'
 import { FaMoneyBillWave } from 'react-icons/fa'
-import SmallSizeSearch from '../common/SmallSizeSearch'
+import SmallSizeSearch from '../../common/SmallSizeSearch'
 
 export default function FoodStore() {
     return (

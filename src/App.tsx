@@ -1,4 +1,5 @@
 import './App.css'
+import { Protector } from "./helper";
 import { Routes, Route } from 'react-router-dom'
 import LandingPage from './pages/LandingPage'
 import FoodDetail from './pages/User/FoodDetail'
@@ -16,13 +17,16 @@ function App() {
     <div>
       <Routes >
         <Route path='/' element={<LandingPage />} />
-        <Route path='detail-food' element={<FoodDetail />} />
-        <Route path='store' element={<FoodStore />} />
-        <Route path='history-order' element={<HistoryOrder />} />
-        <Route path='list-food' element={<ListFood />} />
-        <Route path='profile' element={<Profile />} />
-        <Route path='list-order' element={<ListOrder />} />
         <Route path='/register' element={<Register />} />
+        <Route path="*" element={<p>404 not found</p>} />
+
+        <Route path='detail-food' element={<Protector component={<FoodDetail />} />} />
+        <Route path='store' element={<Protector component={<FoodStore />} />} />
+        <Route path='history-order' element={<Protector component={<HistoryOrder />} />} />
+        <Route path='list-food' element={<Protector component={<ListFood />} />} />
+        <Route path='profile' element={<Protector component={<Profile />} />} />
+        <Route path='list-order' element={<Protector component={<ListOrder />} />} />
+
       </Routes>
     </div>
   )

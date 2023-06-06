@@ -137,7 +137,7 @@ export default function HeadNav() {
                                     </button>
                                 </div>
                                 <div className='mt-8'>
-                                    <div className='flex justify-center'>Chưa có tài khoản? <p className='text-[#1676F3] ml-1'>Đăng ký</p></div>
+                                    <div className='flex justify-center'>Chưa có tài khoản? <Link to={'/register'} className='text-[#1676F3] ml-1'>Đăng ký</Link></div>
                                 </div>
                             </div>
                         </div>

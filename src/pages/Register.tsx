@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useState, ChangeEvent } from "react";
 
-import { ImCheckboxUnchecked } from "react-icons/im";
 import { Link } from "react-router-dom";
 
 export default function RegisterForm() {

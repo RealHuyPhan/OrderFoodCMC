@@ -2,25 +2,29 @@ import axios from "axios";
 import { ChangeEvent, useState } from "react"
 import { useNavigate } from "react-router-dom";
 import { storeUser } from "../helper";
-
 import { Link } from 'react-router-dom'
 import { BiCookie } from 'react-icons/bi'
 import { AiFillCloseCircle } from 'react-icons/ai'
 import cmclogo from "../assets/cmclogo.png"
 import { FaUserAlt } from 'react-icons/fa'
 import { RiLockPasswordFill } from 'react-icons/ri'
+import defaultAva from '../assets/defaultAva.png'
 
 export default function HeadNav() {
     const initialUser = { password: "", identifier: "" };
     const [user, setUser] = useState(initialUser);
     const [modal, setModal] = useState(false);
+    const navigate = useNavigate();
+    const getData = JSON.parse(localStorage.getItem("user") || '{}')
+    const jwt = getData.jwt
 
-    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+
+    function handleChange(event: ChangeEvent<HTMLInputElement>) {
         const { name, value } = event.target;
         setUser((currentUser) => ({
             ...currentUser,
             [name]: value,
-        }))
+        }));
     }
 
     const handleLogin = async () => {
@@ -30,8 +34,8 @@ export default function HeadNav() {
                 const { data } = await axios.post(url, user);
                 if (data.jwt) {
                     storeUser(data)
+                    navigate('/profile')
                     setUser(initialUser)
-                    console.log('Success')
                 }
             }
         } catch (err) {
@@ -54,33 +58,37 @@ export default function HeadNav() {
 
 
     return (
-        <div className="bg-white fixed top-0 right-0 left-0 flex justify-around h-20 shadow-md z-20">
+        <div className="bg-white fixed top-0 right-0 left-0 flex justify-between h-20 shadow-md z-20 p-7">
             <div className='text-2xl font-semibold flex items-center gap-2'>
                 <BiCookie />
-                <Link to={"/"}>Đặt cơm CMC</Link>
+                <Link to={'/'}>Đặt cơm CMC</Link>
             </div>
             <div className="flex items-center gap-4 font-medium">
-                <Link to={"/"}>
-                    Trang chủ
-                </Link>
-                <Link to={'/list-order'}>
-                    Tất cả đơn hàng
-                </Link>
-                <button>
-                    Vote
-                </button>
-                <Link to={'/list-food'}>
-                    Cửa hàng
-                </Link>
-                <Link to={'/profile'}>
-                    Profile
-                </Link>
-                <Link to={'/history-order'}>
-                    Giỏ hàng
-                </Link>
-                <button onClick={toggleModal}>
-                    Đăng nhập
-                </button>
+                {jwt ?
+                    (<div className="flex items-center gap-4">
+                        <Link to={'/list-food'}>
+                            Cửa hàng
+                        </Link>
+                        <Link to={'/list-order'}>
+                            Tất cả đơn hàng
+                        </Link>
+                        <button>
+                            Vote
+                        </button>
+                        <Link to={'/history-order'}>
+                            Giỏ hàng
+                        </Link>
+                        <Link to={'/profile'}>
+                            <img src={defaultAva} alt="" className="w-10 h-10 rounded-full shadow-xl" />
+                        </Link>
+                    </div>)
+                    :
+                    (<div>
+                        <button onClick={toggleModal}>
+                            Đăng nhập
+                        </button>
+                    </div>)
+                }
                 {modal && (
                     <div className="modal">
                         <div className="overlay">

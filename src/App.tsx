@@ -11,6 +11,7 @@ import Histories from './pages/User/Histories';
 import ListStore from './pages/User/ListStore';
 
 
+
 function App() {
 
   return (
@@ -26,7 +27,6 @@ function App() {
         <Route path='profile' element={<Protector component={<Profile />} />} />
         <Route path='orders' element={<Protector component={<Orders />} />} />
         <Route path='stores/:id/foods/:id' element={<Protector component={<Foods />} />} />
-
       </Routes>
     </div>
   )

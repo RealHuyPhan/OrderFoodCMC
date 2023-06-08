@@ -2,12 +2,12 @@ import HeadNav from '../../common/HeadNav'
 import defaultStore from '../../assets/defaultFoodStore.png'
 import { FaMoneyBillWave } from 'react-icons/fa'
 import PrimaryButton from '../../common/PrimaryButton'
-import { useParams } from 'react-router-dom'
+// import { useParams } from 'react-router-dom'
 import defaultAva from '../../assets/defaultAva.png'
 
 
 export default function Foods() {
-    const { id } = useParams();
+    // const { id } = useParams();
 
     const handleOrder = () => {
         console.log('Order')
@@ -50,16 +50,33 @@ export default function Foods() {
                     </div>
                 </div>
                 <div className='ml-20 mt-10 flex items-center font-bold text-lg'>Bình luận</div>
-                <div className=''>
-                    <div className='float-left w-2/5 bg-blue-100 ml-20 rounded-md pl-3 pt-2'>
-                        <textarea placeholder='Viết bình luận của bạn ở đây' className='bg-transparent w-full focus:outline-none' />
-                    </div>
+                <div>
+                    <form>
+                        <div className='float-left w-2/5 bg-blue-100 ml-20 rounded-md pl-3 pt-2'>
+                            <textarea placeholder='Viết bình luận của bạn ở đây' className='bg-transparent w-full focus:outline-none' />
+                        </div>
+                    </form>
                     <div className='float-right w-2/5'>
-                        <form>
+                        <form className='flex mt-2'>
                             <div>
-                                <img src={defaultAva} alt="Avatar" className='w-11 h-11 rounded-full shadow-xl'/>
+                                <img src={defaultAva} alt="Avatar" className='w-11 h-11 rounded-full shadow-xl' />
+                            </div>
+                            <div className='ml-4'>
+                                <div className='flex'>
+                                    <p>
+                                        Username
+                                    </p>
+                                    Component star rate
+                                </div>
+                                <p>Bình luận này mang tính chất bình luận</p>
                             </div>
                         </form>
+                        <div className='flex'>
+                            <img src={defaultStore} alt="" className='w-20 h-20 m-2' />
+                            <img src={defaultStore} alt="" className='w-20 h-20 m-2' />
+                            <img src={defaultStore} alt="" className='w-20 h-20 m-2' />
+                        </div>
+
                     </div>
                 </div>
             </div>

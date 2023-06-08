@@ -77,3 +77,14 @@ export interface IStore {
     "id": number,
     "attributes": IStoreAttribute
 }
+
+export interface IUser extends IStrapiBaseAttribute{
+    "username": string,
+    "email": string,
+    "provider": "local",
+    "confirmed": false,
+    "blocked": false,
+    "fullName": string,
+    "phone": number,
+    "dob": Date
+}

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ChangeEvent, useState } from "react"
+import { ChangeEvent, useRef, useState } from "react"
 import { useNavigate } from "react-router-dom";
 import { storeUser } from "../helper";
 import { Link } from 'react-router-dom'
@@ -9,14 +9,26 @@ import cmclogo from "../assets/cmclogo.png"
 import { FaUserAlt } from 'react-icons/fa'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import defaultAva from '../assets/defaultAva.png'
+import { useClickOutside } from "../hook/useClickOutSide";
 
 export default function HeadNav() {
     const initialUser = { password: "", identifier: "" };
     const [user, setUser] = useState(initialUser);
     const [modal, setModal] = useState(false);
     const navigate = useNavigate();
-    const getData = JSON.parse(localStorage.getItem("user") || '{}')
-    const jwt = getData.jwt
+    const getData = JSON.parse(localStorage.getItem("user") || '{}');
+    const jwt = getData.jwt;
+
+    const [open, setOpen] = useState(false)
+    const menuRef = useRef<HTMLDivElement>(null);
+    useClickOutside(menuRef, () => setOpen(false))
+
+
+    const handleLogout = () => {
+        localStorage.setItem("user", "");
+        console.log("Log out successfully");
+        navigate("/");
+    };
 
 
     function handleChange(event: ChangeEvent<HTMLInputElement>) {
@@ -58,7 +70,7 @@ export default function HeadNav() {
 
 
     return (
-        <div className="bg-white fixed top-0 right-0 left-0 flex justify-between h-20 shadow-md z-20 p-7">
+        <div className="bg-white fixed top-0 right-0 left-0 flex justify-between h-20 shadow-md z-20 px-20">
             <div className='text-2xl font-semibold flex items-center gap-2'>
                 <BiCookie />
                 <Link to={'/'}>Đặt cơm CMC</Link>
@@ -66,22 +78,45 @@ export default function HeadNav() {
             <div className="flex items-center gap-4 font-medium">
                 {jwt ?
                     (<div className="flex items-center gap-4">
-                        <Link to={'/list-food'}>
+                        <Link to={'/stores'}>
                             Cửa hàng
                         </Link>
-                        <Link to={'/list-order'}>
+                        <Link to={'/orders'}>
                             Tất cả đơn hàng
                         </Link>
                         <button>
                             Vote
                         </button>
-                        <Link to={'/history-order'}>
+                        <Link to={'/histories'}>
                             Giỏ hàng
                         </Link>
-                        <Link to={'/profile'}>
-                            <img src={defaultAva} alt="" className="w-10 h-10 rounded-full shadow-xl" />
-                        </Link>
-                    </div>)
+                        <div >
+                            <img
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    setOpen(old => !old)
+                                }}
+                                src={defaultAva}
+                                className="cursor-pointer w-10 h-10 rounded-full shadow-xl" />
+                        </div>
+                        {
+                            open &&
+                            <div ref={menuRef} className="bg-white p-4 w-30 shadow-2xl absolute top-[86%] right-[6%] rounded-lg">
+                                <ul>
+                                    <Link to={'/profile'} className="w-full flex p-2 text-lg cursor-pointer rounded hover:bg-blue-50">
+                                        Profile
+                                    </Link>
+                                    <li className="p-2 text-lg cursor-pointer rounded hover:bg-blue-50">
+                                        Setting
+                                    </li>
+                                    <li onClick={handleLogout} className="p-2 text-lg cursor-pointer rounded hover:bg-blue-50">
+                                        Logout
+                                    </li>
+                                </ul>
+                            </div>
+                        }
+                    </div>
+                    )
                     :
                     (<div>
                         <button onClick={toggleModal}>

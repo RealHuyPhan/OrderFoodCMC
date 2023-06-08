@@ -1,10 +1,14 @@
 import HeadNav from '../../common/HeadNav'
-import defaultFood from '../../assets/default_food_img.png'
 import defaultStore from '../../assets/defaultFoodStore.png'
 import { FaMoneyBillWave } from 'react-icons/fa'
 import PrimaryButton from '../../common/PrimaryButton'
+import { useParams } from 'react-router-dom'
+import defaultAva from '../../assets/defaultAva.png'
 
-export default function FoodDetail() {
+
+export default function Foods() {
+    const { id } = useParams();
+
     const handleOrder = () => {
         console.log('Order')
     }
@@ -44,22 +48,18 @@ export default function FoodDetail() {
                             </PrimaryButton>
                         </form>
                     </div>
-                    <div className='flex items-center'>
-                        <h2 className='font-semibold ml-5 mt-5'>Các món ăn trong cửa hàng:</h2>
-                    </div>
                 </div>
-            </div>
-            <div className='mt-5 grid grid-cols-3 gap-7 mx-5'>
-                <div className='flex border-[1px] h-24 items-center'>
-                    <div className='ml-3'>
-                        <img src={defaultFood} alt="No Food img founded" className='w-16 h-16' />
+                <div className='ml-20 mt-10 flex items-center font-bold text-lg'>Bình luận</div>
+                <div className=''>
+                    <div className='float-left w-2/5 bg-blue-100 ml-20 rounded-md pl-3 pt-2'>
+                        <textarea placeholder='Viết bình luận của bạn ở đây' className='bg-transparent w-full focus:outline-none' />
                     </div>
-                    <div className='ml-5'>
-                        <h3 className='font-medium text-lg'>Quán trà sửa của PI</h3>
-                        <p className='text-xs'>Cách đây 0.6km</p>
-                        <div>
-                            Component star reate
-                        </div>
+                    <div className='float-right w-2/5'>
+                        <form>
+                            <div>
+                                <img src={defaultAva} alt="Avatar" className='w-11 h-11 rounded-full shadow-xl'/>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

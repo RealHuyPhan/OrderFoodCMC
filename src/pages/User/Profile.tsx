@@ -1,15 +1,9 @@
 import HeadNav from "../../common/HeadNav"
 import defaultAva from '../../assets/defaultAva.png'
 import qrcode from '../../assets/qrcode.png'
-import { useNavigate } from "react-router-dom";
 
 function Profile() {
-    const navigate = useNavigate();
-    const handleLogout = () => {
-        localStorage.setItem("user", "");
-        console.log("Log out successfully");
-        navigate("/");
-    };
+
     return (
         <>
             <HeadNav />
@@ -19,7 +13,6 @@ function Profile() {
                         <img src={defaultAva} alt="" className="h-20 w-20 rounded-full" />
                         <div>
                             <p className="text-white font-bold">Change Your Profile</p>
-                            <button onClick={handleLogout} className="text-white">Logout</button>
                         </div>
                     </div>
                 </div>

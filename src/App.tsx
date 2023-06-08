@@ -2,13 +2,13 @@ import './App.css'
 import { Protector } from "./helper";
 import { Routes, Route } from 'react-router-dom'
 import LandingPage from './pages/LandingPage'
-import FoodDetail from './pages/User/FoodDetail'
-import FoodStore from './pages/User/FoodStore'
-import HistoryOrder from './pages/User/HistoryOrder'
-import ListFood from './pages/User/ListFood'
 import Profile from './pages/User/Profile'
-import ListOrder from './pages/User/ListOrder'
 import Register from './pages/Register'
+import Foods from './pages/User/Foods';
+import Orders from './pages/User/Orders';
+import Stores from './pages/User/Stores';
+import Histories from './pages/User/Histories';
+import ListStore from './pages/User/ListStore';
 
 
 function App() {
@@ -20,12 +20,12 @@ function App() {
         <Route path='/register' element={<Register />} />
         <Route path="*" element={<p>404 not found</p>} />
 
-        <Route path='detail-food' element={<Protector component={<FoodDetail />} />} />
-        <Route path='store' element={<Protector component={<FoodStore />} />} />
-        <Route path='history-order' element={<Protector component={<HistoryOrder />} />} />
-        <Route path='list-food' element={<Protector component={<ListFood />} />} />
+        <Route path='stores/:id/foods' element={<Protector component={<Stores />} />} />
+        <Route path='histories' element={<Protector component={<Histories />} />} />
+        <Route path='stores' element={<Protector component={<ListStore />} />} />
         <Route path='profile' element={<Protector component={<Profile />} />} />
-        <Route path='list-order' element={<Protector component={<ListOrder />} />} />
+        <Route path='orders' element={<Protector component={<Orders />} />} />
+        <Route path='stores/:id/foods/:id' element={<Protector component={<Foods />} />} />
 
       </Routes>
     </div>

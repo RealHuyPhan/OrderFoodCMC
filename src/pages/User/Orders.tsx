@@ -1,7 +1,7 @@
 import HeadNav from '../../common/HeadNav'
 import defaultFood from '../../assets/default_food_img.png'
 
-export default function ListOrder() {
+export default function Orders() {
     return (
         <div>
             <HeadNav />

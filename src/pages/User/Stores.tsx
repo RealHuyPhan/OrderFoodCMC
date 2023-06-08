@@ -22,6 +22,7 @@ export default function Stores() {
             },
         }).then((res) => {
             setStore(res.data.data as IStore)
+            console.log(res.data.data,"check store")
         }).catch((err) => {
             console.log(err)
         }).finally(() => {
@@ -71,7 +72,7 @@ export default function Stores() {
                 {store.attributes.foods.data.map(food => (
                     <Link to={`${food.id}`} key={food.id} className='flex border-[1px] h-24 items-center'>
                         <div className='ml-3'>
-                            <img src={`http://localhost:1337${food.attributes.foodImage.data[0].attributes.url}`} alt="No Food img founded" className='w-16 h-16' />
+                            <img src={food.attributes.foodImage ? `http://localhost:1337${food.attributes.foodImage.data[0].attributes.url}` : defaultStore} alt="No Food img founded" className='w-16 h-16' />
                         </div>
                         <div className='ml-5'>
                             <h3 className='font-medium text-lg'>{food.attributes.foodName}</h3>

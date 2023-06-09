@@ -44,6 +44,7 @@ export interface IImageAttribute extends Omit<IStrapiBaseAttribute, 'publishedAt
         "small": IImageFormatSize,
         "medium": IImageFormatSize
     },
+    id: number;
     "hash": string;
     "ext": string;
     "mime": string;
@@ -76,4 +77,16 @@ interface IStoreAttribute extends IStrapiBaseAttribute {
 export interface IStore {
     "id": number,
     "attributes": IStoreAttribute
+}
+
+export interface IUser extends IStrapiBaseAttribute{
+    "username": string,
+    "email": string,
+    "provider": "local",
+    "confirmed": false,
+    "blocked": false,
+    "fullName": string,
+    "phone": number,
+    "dob": string,
+    "qrcode":IImageAttribute[],
 }

@@ -160,6 +160,8 @@ function LandingPage() {
                         <h3 className="text-2xl font-bold mb-4">Hợp tác với</h3>
                         <p>Nguyễn Chí Tiến</p>
                         <br />
+                        <p>Nguyễn Văn Hải</p>
+                        <br />
                         <p>CMC</p>
                     </div>
                     <div>

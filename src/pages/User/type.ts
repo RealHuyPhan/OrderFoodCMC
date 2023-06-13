@@ -5,6 +5,7 @@ export interface IStrapiBaseAttribute {
 }
 
 export interface IFoodAttribute extends IStrapiBaseAttribute {
+    foods: any;
     "foodName": string,
     "price": number,
     "description": string,
@@ -34,6 +35,7 @@ export interface IImageFormatSize {
 }
 
 export interface IImageAttribute extends Omit<IStrapiBaseAttribute, 'publishedAt'> {
+    id:number
     "name": string,
     "alternativeText": null,
     "caption": null,
@@ -79,6 +81,7 @@ export interface IStore {
 }
 
 export interface IUser extends IStrapiBaseAttribute{
+    qrcode: IImageAttribute[];
     "username": string,
     "email": string,
     "provider": "local",
@@ -86,5 +89,12 @@ export interface IUser extends IStrapiBaseAttribute{
     "blocked": false,
     "fullName": string,
     "phone": number,
-    "dob": Date
+    "dob": string
+}
+
+export interface IOrder {
+    map(arg0: (order: IOrder) => import("react/jsx-runtime").JSX.Element): import("react").ReactNode;
+    attributes: any;
+    id: number | null | undefined;
+    
 }

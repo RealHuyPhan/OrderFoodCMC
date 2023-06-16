@@ -9,6 +9,8 @@ import Orders from './pages/User/Orders';
 import Stores from './pages/User/Stores';
 import Histories from './pages/User/Histories';
 import ListStore from './pages/User/ListStore';
+import OrderDetail from './pages/User/OrderDetail';
+import FoodOrder from './pages/User/FoodOrder';
 
 
 
@@ -27,6 +29,8 @@ function App() {
         <Route path='profile' element={<Protector component={<Profile />} />} />
         <Route path='orders' element={<Protector component={<Orders />} />} />
         <Route path='stores/:id/foods/:id' element={<Protector component={<Foods />} />} />
+        <Route path='orders/:id' element={<Protector component={<OrderDetail />} />} />
+        <Route path='orders/:id/foods/:id' element={<Protector component={<FoodOrder />} />} />
       </Routes>
     </div>
   )

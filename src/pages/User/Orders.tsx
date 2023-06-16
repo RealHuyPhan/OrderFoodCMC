@@ -8,24 +8,26 @@ import ListOrder from './ListOrder';
 export default function Orders() {
     const [orders, setOrders] = useState<IOrder>();
     const [storeSelected, setStoreSelected] = useState();
+    const [orderId, setOrderId] = useState();
 
     const getData = JSON.parse(localStorage.getItem("user") || '{}');
     const jwt = getData.jwt;
 
-    const getOrder = () => {
-        axios.get(`http://localhost:1337/api/orders?populate=*`, {
-            headers: {
-                Authorization: `Bearer ${jwt}`,
-            },
-        }).then((res) => {
-            setOrders(res.data.data)
-            console.log(res.data.data, 'store?')
-        }).catch((err) => {
-            console.log(err)
-        })
-    }
+
 
     useEffect(() => {
+        const getOrder = () => {
+            axios.get(`http://localhost:1337/api/orders?populate=*`, {
+                headers: {
+                    Authorization: `Bearer ${jwt}`,
+                },
+            }).then((res) => {
+                setOrders(res.data.data)
+                console.log(res.data.data, 'store?')
+            }).catch((err) => {
+                console.log(err)
+            })
+        }
         getOrder();
     }, [jwt])
 

@@ -29,7 +29,6 @@ function Profile() {
             })
             .then((res) => {
                 setProfile(res.data as IUser);
-                console.log(res.data);
             })
             .catch((err) => {
                 console.log(err);

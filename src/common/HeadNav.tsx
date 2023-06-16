@@ -10,6 +10,11 @@ import { FaUserAlt } from 'react-icons/fa'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import defaultAva from '../assets/defaultAva.png'
 import { useClickOutside } from "../hook/useClickOutSide";
+import { ToastContainer, toast, Zoom } from 'react-toastify';
+import "react-toastify/ReactToastify.css"
+
+
+
 
 export default function HeadNav() {
     const initialUser = { password: "", identifier: "" };
@@ -24,9 +29,22 @@ export default function HeadNav() {
     useClickOutside(menuRef, () => setOpen(false))
 
 
+    const successToast = () => {
+        toast.success("Đăng nhập thành công", {
+            position: "bottom-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+        });
+    };
+
+
     const handleLogout = () => {
         localStorage.setItem("user", "");
-        console.log("Log out successfully");
         navigate("/");
     };
 
@@ -45,8 +63,10 @@ export default function HeadNav() {
             if (user.identifier && user.password) {
                 const { data } = await axios.post(url, user);
                 if (data.jwt) {
+                    successToast();
+                    setModal(!modal);
                     storeUser(data)
-                    navigate('/profile')
+                    navigate('/')
                     setUser(initialUser)
                 }
             }
@@ -71,7 +91,18 @@ export default function HeadNav() {
 
     return (
         <div className="bg-white fixed top-0 right-0 left-0 flex justify-between h-20 shadow-md z-20 px-20">
-            <div className='text-2xl font-semibold flex items-center gap-2'>
+            <ToastContainer
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />  
+            <div className='text-2xl font-semibold flex items-center gap-2 w-1/2'>
                 <BiCookie />
                 <Link to={'/'}>Đặt cơm CMC</Link>
             </div>

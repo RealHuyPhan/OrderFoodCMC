@@ -7,7 +7,8 @@ import axios from 'axios';
 import { IStore } from './type';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
-
+import { ToastContainer, toast } from 'react-toastify';
+import "react-toastify/ReactToastify.css"
 
 export default function Stores() {
     const [modal, setModal] = useState(false)
@@ -18,6 +19,18 @@ export default function Stores() {
     const personic = getData.id
     const [isGetData, setIsGetData] = useState(true)
 
+    const successToast = () => {
+        toast.success("Cập nhật thông tin Thành công", {
+            position: "bottom-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+        });
+    };
 
 
     const [title, setTitle] = useState<string>();
@@ -43,7 +56,13 @@ export default function Stores() {
                 },
                 body: formData
             }
-        )
+        ).then((res) => {
+            successToast();
+            toggleModal();
+
+        }).catch((err) => {
+            console.log(err)
+        })
     }
 
     useEffect(() => {
@@ -81,13 +100,21 @@ export default function Stores() {
         document.body.classList.remove("active-modal");
     }
 
-    console.log(store, "=>>>")
-
-
 
     return (
         <div>
             <HeadNav />
+            <ToastContainer
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
             <div className='mt-28 relative'>
                 <div className='w-full'>
                     <div className='flex'>
@@ -150,8 +177,6 @@ export default function Stores() {
                 </div>
             </div>
             <div className='mt-5 grid grid-cols-3 gap-7 mx-5'>
-
-
                 {store.attributes.foods.data.map(food => (
                     <Link to={`${food.id}`} key={food.id} className='flex border-[1px] h-24 items-center'>
                         <div className='ml-3'>
@@ -166,7 +191,6 @@ export default function Stores() {
                         </div>
                     </Link>
                 ))}
-
             </div>
         </div>
     )

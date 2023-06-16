@@ -57,6 +57,8 @@ export interface IImageAttribute extends Omit<IStrapiBaseAttribute, 'publishedAt
 }
 
 export interface IImage {
+    image:string | undefined;
+    preview:string;
     "id": number,
     "attributes": IImageAttribute;
 }
@@ -81,7 +83,10 @@ export interface IStore {
 }
 
 export interface IUser extends IStrapiBaseAttribute{
-    qrcode: IImageAttribute[];
+    "avatar": {
+        "url": string
+    };
+    qrcode: IImageAttribute[],
     "username": string,
     "email": string,
     "provider": "local",
@@ -89,7 +94,8 @@ export interface IUser extends IStrapiBaseAttribute{
     "blocked": false,
     "fullName": string,
     "phone": number,
-    "dob": string
+    "dob": string,
+    
 }
 
 export interface IOrder {
@@ -98,3 +104,4 @@ export interface IOrder {
     id: number | null | undefined;
     
 }
+

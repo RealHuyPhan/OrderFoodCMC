@@ -4,7 +4,7 @@ interface PrimaryButtonProps {
     fontsize: number;
     fontWeight: number;
     children: React.ReactNode;
-    // onClick?: () => void ; 
+    onClick?: () => void ; 
 }
 
 export const PrimaryButton = ({
@@ -12,12 +12,12 @@ export const PrimaryButton = ({
     width,
     fontsize,
     fontWeight,
-    // onClick,
+    onClick,
     children
 }: PrimaryButtonProps): JSX.Element => {
     return (
         <button style={{ width: `${width}px`, height: `${height}px`, fontSize: `${fontsize}px`, fontWeight: `${fontWeight}` }}
-            // onClick={onClick}
+            onClick={onClick}
             className="rounded-2xl bg-[#FFCB45] text-[#1D1D1D]">
             {children}
         </button>

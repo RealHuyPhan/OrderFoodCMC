@@ -1,7 +1,7 @@
 import HeadNav from "../../common/HeadNav";
 import defaultAva from "../../assets/defaultAva.png";
 import { useEffect, useState } from "react";
-import { IUser } from "./type";
+import { IImage, IUser } from "./type";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, Zoom, toast } from "react-toastify";
@@ -14,7 +14,7 @@ function Profile() {
   const jwt = getData.jwt;
   const id = getData.id;
   const [isGetData, setIsGetData] = useState(true);
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [image, setImage] = useState();
 
   const initialEdit = {
     fullName: undefined,
@@ -90,6 +90,13 @@ function Profile() {
     }));
   };
 
+  const handlePreviewImage = (e: any) => {
+    const file = e.target.files[0];
+
+    file.preview = URL.createObjectURL(file);
+    setImage(file);
+  };
+
   useEffect(() => {
     getProfile();
     editUser();
@@ -115,12 +122,6 @@ function Profile() {
       theme: "light",
     });
   };
-  
-
-  const handleImageChange = (event: any) => {
-    setSelectedImage(URL.createObjectURL(event.target.files[0]));
-  };
-
 
   return (
     <>
@@ -144,11 +145,8 @@ function Profile() {
               <img
                 src={`http://localhost:1337${profile.avatar.url}`}
                 alt=""
-                className="opacity-100 backface-hidden rounded-full group-hover:opacity-30"
+                className="opacity-100 backface-hidden rounded-full group-hover:opacity-30 h-auto w-full"
               />
-              <button className="opacity-0 z-10 group-hover:opacity-100 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 -ms-translate-x-1/2 -ms-translate-y-1/2 text-center text-white">
-                Edit
-              </button>
             </div>
             <div>
               <p className="text-white font-bold">Change Your Profile</p>
@@ -197,7 +195,7 @@ function Profile() {
               </div>
               {modal && (
                 <div className="modal">
-                  <div className="overlay">
+                  <div className="overlay" >
                     <div className="modal-content w-2/3 h-2/3 bg-white">
                       <div className="flex justify-center text-2xl  text-slate-950 mt-5 mb-5">
                         Cập nhật thông tin tài khoản

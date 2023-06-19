@@ -1,8 +1,6 @@
 import HeadNav from '../../common/HeadNav'
 import defaultStore from '../../assets/defaultFoodStore.png'
 import { FaMoneyBillWave } from 'react-icons/fa'
-// import PrimaryButton from '../../common/PrimaryButton'
-// import { useParams } from 'react-router-dom'
 import defaultAva from '../../assets/defaultAva.png'
 
 

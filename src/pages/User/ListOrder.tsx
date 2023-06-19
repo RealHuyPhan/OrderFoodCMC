@@ -48,7 +48,6 @@ export default function ListOrder({ storeId }: { storeId: number, }) {
             },
         }).then((res) => {
             setFood(res.data.data as IFood)
-            console.log(res.data.data)
         }).catch((err) => {
             console.log(err)
         }).finally(() => {

@@ -30,7 +30,7 @@ function App() {
         <Route path='orders' element={<Protector component={<Orders />} />} />
         <Route path='stores/:id/foods/:id' element={<Protector component={<Foods />} />} />
         <Route path='orders/:id' element={<Protector component={<OrderDetail />} />} />
-        <Route path='orders/:id/foods/:id' element={<Protector component={<FoodOrder />} />} />
+        {/* <Route path='orders/:orderId/foods/:foodId' element={<Protector component={<FoodOrder />} />} /> */}
       </Routes>
     </div>
   )

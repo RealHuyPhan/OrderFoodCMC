@@ -23,7 +23,6 @@ export default function Orders() {
                 },
             }).then((res) => {
                 setOrders(res.data.data)
-                console.log(res.data.data, 'store?')
             }).catch((err) => {
                 console.log(err)
             })

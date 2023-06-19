@@ -10,7 +10,7 @@ import { FaUserAlt } from 'react-icons/fa'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import defaultAva from '../assets/defaultAva.png'
 import { useClickOutside } from "../hook/useClickOutSide";
-import { ToastContainer, toast, Zoom } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/ReactToastify.css"
 
 
@@ -101,7 +101,7 @@ export default function HeadNav() {
                 draggable
                 pauseOnHover
                 theme="light"
-            />  
+            />
             <div className='text-2xl font-semibold flex items-center gap-2 w-1/2'>
                 <BiCookie />
                 <Link to={'/'}>Đặt cơm CMC</Link>

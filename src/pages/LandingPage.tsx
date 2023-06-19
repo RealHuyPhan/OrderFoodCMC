@@ -35,7 +35,6 @@ function LandingPage() {
                 },
             }).then((res) => {
                 setOrders(res.data.data)
-                console.log(res.data.data, 'store?')
             }).catch((err) => {
                 console.log(err)
             })

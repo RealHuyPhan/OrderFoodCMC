@@ -14,7 +14,6 @@ interface Stores {
 
 export default function ListStore() {
     const [stores, setStores] = useState<Stores[]>([]);
-
     const getData = JSON.parse(localStorage.getItem("user") || '{}');
     const jwt = getData.jwt;
 

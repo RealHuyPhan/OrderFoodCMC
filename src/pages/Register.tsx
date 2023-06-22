@@ -22,7 +22,6 @@ export default function RegisterForm() {
                 const res = await axios.post(url, user)
                 if (res) {
                     setUser(initialUser)
-                    console.log('Completed register')
                 }
             }
         } catch (err) {

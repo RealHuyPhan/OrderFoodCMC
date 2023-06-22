@@ -4,19 +4,42 @@ import { IFood } from './type'
 import axios from 'axios'
 import PrimaryButton from '../../common/PrimaryButton'
 
-export default function ListOrder({ storeId }: { storeId: number }) {
-    const [counter, setCounter] = useState(1);
-    const incrementCounter = () => setCounter(counter + 1);
-    let decrementCounter = () => setCounter(counter - 1);
-    if (counter <= 0) {
-        decrementCounter = () => setCounter(1);
-    }
+
+export default function ListOrder({ storeId }: { storeId: number, }) {
 
     const [food, setFood] = useState<IFood>()
     const getData = JSON.parse(localStorage.getItem("user") || '{}');
     const jwt = getData.jwt;
+    const user = getData.user
+    const [isGetData, setIsGetData] = useState(true);
 
-    const [isGetData, setIsGetData] = useState(true)
+    const [cart, setCart] = useState()
+
+
+    const handleOrderItem = (e: any) => {
+        e.preventDefault();
+
+        const formData = new FormData();
+        formData.append(
+            "data",
+            JSON.stringify({
+                // note,
+                user: user,
+                food: food?.id
+
+            })
+        );
+        fetch(`http://localhost:1337/api/order-items`,
+            {
+                method: "POST",
+                mode: "cors",
+                headers: {
+                    Authorization: `Bearer ${jwt}`,
+                },
+                body: formData
+            }
+        )
+    }
 
     const getFood = () => {
         axios.get(`http://localhost:1337/api/stores/${storeId}?populate=*`, {
@@ -45,6 +68,18 @@ export default function ListOrder({ storeId }: { storeId: number }) {
         return <p>404 not found</p>
     }
 
+    const addToCart = (food:any) => {
+        setCart(food)
+    }
+
+    // const removeFromCart = (food) => {
+    //     let hardCopy = [...cart];
+    //     hardCopy = hardCopy.filter((cartItem => cartItem.id !== food.id))
+    //     setCart(hardCopy)
+    // }
+
+    console.log('cart added', cart)
+
     return (
         <div className='h-[480px] border-[1px] overflow-y-scroll'>
             <h1 className='text-center font-medium text-xl'>Chi tiết đơn đặt</h1>
@@ -57,14 +92,26 @@ export default function ListOrder({ storeId }: { storeId: number }) {
                             <p className='font-light text-sm'>Price: {food.attributes.price}</p>
                         </div>
                         <div className='my-4 flex items-center'>
-                            <button onClick={decrementCounter} className='border-[1px] border-solid w-6 h-6 font-bold'>
+                            {/* <button value="remove"
+                                // onClick={() => removeFromCart(food)} 
+                                className='border-[1px] border-solid w-6 h-6 font-bold'>
                                 -
                             </button>
-                            <input value={counter} type="number" className='border-[1px] border-solid w-9 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none' />
-                            <button onClick={incrementCounter} className='border-[1px] border-solid w-6 h-6 font-bold mr-3'>
+                            <input type='number' className='border-[1px] border-solid w-10 flex justify-center'
+                            />
+                            <button onClick={() => increaseCount()} className='border-[1px] border-solid w-6 h-6 font-bold mr-3'>
                                 +
-                            </button>
-                            <PrimaryButton height={30} width={70} fontsize={14} fontWeight={500}>Đặt hàng</PrimaryButton>
+                            </button> */}
+                            <PrimaryButton
+                                height={30}
+                                width={70}
+                                fontsize={14}
+                                fontWeight={500}
+                                onClick={() => addToCart(food.id)}
+
+                            >
+                                Đặt hàng
+                            </PrimaryButton>
                         </div>
                     </div>
                 </div>

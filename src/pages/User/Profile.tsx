@@ -1,9 +1,8 @@
 import HeadNav from "../../common/HeadNav";
-import defaultAva from "../../assets/defaultAva.png";
 import { useEffect, useState } from "react";
-import { IImage, IUser } from "./type";
+import { IUser } from "./type";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ToastContainer, Zoom, toast } from "react-toastify";
 import "react-toastify/ReactToastify.css";
 
@@ -28,24 +27,24 @@ function Profile() {
   }>(initialEdit);
   const navigate = useNavigate();
 
-  const getProfile = () => {
-    axios
-      .get(`http://localhost:1337/api/users/${id}?populate=*`, {
-        headers: {
-          Authorization: `Bearer ${jwt}`,
-        },
-      })
-      .then((res) => {
-        setProfile(res.data as IUser);
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {
-        setIsGetData(false);
-      });
-  };
+    const getProfile = () => {
+        axios
+            .get(`http://localhost:1337/api/users/${id}?populate=*`, {
+                headers: {
+                    Authorization: `Bearer ${jwt}`,
+                },
+            })
+            .then((res) => {
+                setProfile(res.data as IUser);
+                console.log(res.data);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+            .finally(() => {
+                setIsGetData(false);
+            });
+    };
 
   const BackButton = () => {
     getProfile();

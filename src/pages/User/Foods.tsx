@@ -1,13 +1,12 @@
 import HeadNav from '../../common/HeadNav'
 import defaultStore from '../../assets/defaultFoodStore.png'
 import { FaMoneyBillWave } from 'react-icons/fa'
-import PrimaryButton from '../../common/PrimaryButton'
-// import { useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import defaultAva from '../../assets/defaultAva.png'
 
 
 export default function Foods() {
-    // const { id } = useParams();
+    const id = useParams();
 
     const handleOrder = () => {
         console.log('Order')
@@ -29,23 +28,7 @@ export default function Foods() {
                                 <FaMoneyBillWave className="text-3xl text-blue-600" />
                                 <p className='ml-3'>: 72 000vnđ</p>
                             </div>
-                            <div className='my-4'>
-                                <button className='border-[1px] border-solid w-6 h-6 font-bold'>
-                                    -
-                                </button>
-                                <input type="number" className='w-9 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none' />
-                                <button className='border-[1px] border-solid w-6 h-6 font-bold '>
-                                    +
-                                </button>
-                            </div>
-                            <PrimaryButton
-                                width={96}
-                                height={32}
-                                fontWeight={600}
-                                fontsize={16}
-                                onClick={handleOrder}>
-                                Đặt hàng
-                            </PrimaryButton>
+
                         </form>
                     </div>
                 </div>

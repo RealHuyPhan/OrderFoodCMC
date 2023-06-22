@@ -4,16 +4,12 @@ import { useEffect, useState } from 'react'
 import { IOrder } from './type'
 import axios from 'axios';
 import ListOrder from './ListOrder';
+import { Link } from 'react-router-dom';
 
 export default function Orders() {
-    const [orders, setOrders] = useState<IOrder>();
-    const [storeSelected, setStoreSelected] = useState();
-    const [orderId, setOrderId] = useState();
-
+    const [orders, setOrders] = useState<IOrder | undefined>();
     const getData = JSON.parse(localStorage.getItem("user") || '{}');
     const jwt = getData.jwt;
-
-
 
     useEffect(() => {
         const getOrder = () => {
@@ -30,34 +26,30 @@ export default function Orders() {
         getOrder();
     }, [jwt])
 
-
-
     return (
-        <div>
+        <>
             <HeadNav />
-            <div className='mt-24 flex'>
-                <div className='flex-1'>
-                    <h1 className='text-center font-semibold text-xl'>Đơn tạo</h1>
-                    {orders && orders.map((order: IOrder) => (
-                        <form onClick={() => {
-                            setStoreSelected(order.attributes.store.data.id)
-                        }} key={order.id} className='flex mt-4 cursor-pointer'>
-                            <img src={defaultImg} alt="" className='w-32 ml-8' />
-                            <div className='items-center w-full ml-5'>
-                                <div>
-                                    <label className='font-bold text-lg'>{order.attributes.title}</label>
-                                    <p className='font-light text-sm'>Đã khởi tạo từ ngày: {order.attributes.createdAt}</p>
-                                </div>
+            <div className='mt-20'>
+                <h2 className='font-bold text-center text-2xl pt-3 '>Đơn đã tạo</h2>
+                <div className='mb-3 mx-6'>
+                    <div className='flex flex-wrap mx-[-5px]'>
+                        {orders && orders.map((order: IOrder) => (
+                            <div key={order.id} className='px-[5px] w-1/4'>
+                                <Link to={`${order.id}`} className='block relative mt-3 bg-white rounded-sm shadow-md'>
+                                    <img src={defaultImg} alt="" className='bg-no-repeat bg-contain bg-center border-x-2' />
+                                    <h4 className='text-1xl font-bold m-2 overflow-hidden '>
+                                        {order.attributes.title}
+                                    </h4>
+                                    <p className='text-base font-normal m-2 overflow-hidden'>
+                                        Đã khởi tạo từ ngày: {order.attributes.createdAt}
+                                    </p>
+                                </Link>
                             </div>
-                        </form>
-                    ))
-                    }
-
-                </div>
-                <div className='flex-1'>
-                    <ListOrder storeId={storeSelected} />
+                        ))
+                        }
+                    </div>
                 </div>
             </div>
-        </div>
+        </>
     )
 }

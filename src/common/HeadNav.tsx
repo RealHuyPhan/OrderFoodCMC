@@ -90,7 +90,7 @@ export default function HeadNav() {
 
 
     return (
-        <div className="bg-white fixed top-0 right-0 left-0 flex justify-between h-20 shadow-md z-20 px-20">
+        <div className="bg-white fixed top-0 right-0 left-0 flex justify-between h-[70px] shadow-md z-20 px-20">
             <ToastContainer
                 autoClose={5000}
                 hideProgressBar={false}

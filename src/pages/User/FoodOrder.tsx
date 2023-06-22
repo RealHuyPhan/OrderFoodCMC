@@ -12,11 +12,10 @@ import PrimaryButton from '../../common/PrimaryButton';
 
 function FoodOrder() {
     const [food, setFood] = useState<IFood>();
-    const { orderId, foodId } = useParams();
-    console.log(orderId, 'order id')
-    console.log(foodId, 'food id')
+    const { foodId } = useParams();
     const getData = JSON.parse(localStorage.getItem("user") || '{}');
     const jwt = getData.jwt;
+
 
     useEffect(() => {
         const getFood = () => {
@@ -32,12 +31,10 @@ function FoodOrder() {
                 })
 
         }
+        getFood()
 
-       
+
     }, [foodId, jwt])
-
-
-    console.log('Food custom', food)
 
 
     return (
@@ -52,7 +49,7 @@ function FoodOrder() {
                         <form className='flex-1'>
                             <h2 className='font-semibold text-3xl my-1'>{food?.attributes.foodName}</h2>
                             <p>{food?.attributes.description}</p>
-                            <div className='my-3'>Component reate star</div>
+                            <div className='my-3'>Component reate star?????????????</div>
                             <div className='flex mb-4'>
                                 <FaMoneyBillWave className="text-3xl text-blue-600" />
                                 <p className='ml-3'>: {food?.attributes.price} vnđ</p>

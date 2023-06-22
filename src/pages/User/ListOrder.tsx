@@ -77,7 +77,6 @@ export default function ListOrder({ storeId }: { storeId: number, }) {
     //     setCart(hardCopy)
     // }
 
-    console.log('cart added', cart)
 
     return (
         <div className='h-[480px] border-[1px] overflow-y-scroll'>

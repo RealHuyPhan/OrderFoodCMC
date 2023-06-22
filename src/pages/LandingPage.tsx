@@ -28,18 +28,20 @@ function LandingPage() {
     }
 
     useEffect(() => {
-        const getOrders = () => {
-            axios.get(`http://localhost:1337/api/orders?populate=*`, {
-                headers: {
-                    Authorization: `Bearer ${jwt}`,
-                },
-            }).then((res) => {
-                setOrders(res.data.data)
-            }).catch((err) => {
-                console.log(err)
-            })
+        if (jwt) {
+            const getOrders = () => {
+                axios.get(`http://localhost:1337/api/orders?populate=*`, {
+                    headers: {
+                        Authorization: `Bearer ${jwt}`,
+                    },
+                }).then((res) => {
+                    setOrders(res.data.data)
+                }).catch((err) => {
+                    console.log(err)
+                })
+            }
+            getOrders()
         }
-        getOrders()
     }, [jwt])
 
 

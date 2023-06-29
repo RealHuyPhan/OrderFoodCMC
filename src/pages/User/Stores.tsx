@@ -19,7 +19,7 @@ export default function Stores() {
     const personic = getData.id
     const [isGetData, setIsGetData] = useState(true)
 
-    console.log(id,'store id')
+    console.log(id, 'store id')
 
     const successToast = () => {
         toast.success("Cập nhật thông tin Thành công", {

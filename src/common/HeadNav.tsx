@@ -1,32 +1,42 @@
 import axios from "axios";
-import { ChangeEvent, useRef, useState } from "react"
-import { useNavigate } from "react-router-dom";
+import { ChangeEvent, useEffect, useState } from "react";
+import { AiFillCloseCircle } from "react-icons/ai";
+import { BiCookie } from "react-icons/bi";
+import { BsSearch } from "react-icons/bs";
+import { FaUserAlt } from "react-icons/fa";
+import { RiLockPasswordFill } from "react-icons/ri";
+import { Link, useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/ReactToastify.css";
+import cmclogo from "../assets/cmclogo.png";
+import defaultAva from "../assets/defaultAva.png";
+import defaultFood from "../assets/defaultFoodStore.png";
 import { storeUser } from "../helper";
-import { Link } from 'react-router-dom'
-import { BiCookie } from 'react-icons/bi'
-import { AiFillCloseCircle } from 'react-icons/ai'
-import cmclogo from "../assets/cmclogo.png"
-import { FaUserAlt } from 'react-icons/fa'
-import { RiLockPasswordFill } from 'react-icons/ri'
-import defaultAva from '../assets/defaultAva.png'
-import { useClickOutside } from "../hook/useClickOutSide";
-import { ToastContainer, toast } from 'react-toastify';
-import "react-toastify/ReactToastify.css"
 
-
-
+interface Stores {
+    id: number;
+    attributes: {
+        storeName: string;
+    };
+}
 
 export default function HeadNav() {
     const initialUser = { password: "", identifier: "" };
     const [user, setUser] = useState(initialUser);
     const [modal, setModal] = useState(false);
     const navigate = useNavigate();
-    const getData = JSON.parse(localStorage.getItem("user") || '{}');
+    const getData = JSON.parse(localStorage.getItem("user") || "{}");
     const jwt = getData.jwt;
+    const [votemodal, setVoteModal] = useState(false);
+    const [stores, setStores] = useState<Stores[]>([]);
+    const [storeIdSelected, setStoreIdSelected] = useState<number>();
+    const [title, setTitle] = useState<string>();
+    const [open, setOpen] = useState(false);
+    const personic = getData.id;
 
-    const [open, setOpen] = useState(false)
-    const menuRef = useRef<HTMLDivElement>(null);
-    useClickOutside(menuRef, () => setOpen(false))
+    const handleOnClick = (storeId: number) => {
+        setStoreIdSelected(storeId !== storeIdSelected ? storeId : undefined);
+    };
 
 
     const successToast = () => {
@@ -42,12 +52,10 @@ export default function HeadNav() {
         });
     };
 
-
     const handleLogout = () => {
         localStorage.setItem("user", "");
         navigate("/");
     };
-
 
     function handleChange(event: ChangeEvent<HTMLInputElement>) {
         const { name, value } = event.target;
@@ -58,39 +66,90 @@ export default function HeadNav() {
     }
 
     const handleLogin = async () => {
-        const url = `http://localhost:1337/api/auth/local`
+        const url = `http://localhost:1337/api/auth/local`;
         try {
             if (user.identifier && user.password) {
                 const { data } = await axios.post(url, user);
                 if (data.jwt) {
                     successToast();
                     setModal(!modal);
-                    storeUser(data)
-                    navigate('/')
-                    setUser(initialUser)
+                    storeUser(data);
+                    navigate("/");
+                    setUser(initialUser);
                 }
             }
         } catch (err) {
-            console.log('Fail to login!')
+            console.log("Fail to login!");
         }
-    }
+    };
 
+    useEffect(() => {
+        const getStores = () => {
+            axios
+                .get(`http://localhost:1337/api/stores?populate=*`, {
+                    headers: {
+                        Authorization: `Bearer ${jwt}`,
+                    },
+                })
+                .then((res) => {
+                    setStores(res.data.data);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        };
+        return getStores();
+    }, [jwt]);
 
-    // Button open modal
     const toggleModal = () => {
         setModal(!modal);
-    }
+    };
 
-    if (modal) {
-        document.body.classList.add("active-modal")
+    const toggleVoteModal = () => {
+        setVoteModal(!votemodal);
+    };
+
+    const BackButton = () => {
+        toggleVoteModal();
+    };
+
+    if (modal && votemodal) {
+        document.body.classList.add("active-modal");
     } else {
-        document.body.classList.remove("active-modal")
+        document.body.classList.remove("active-modal");
     }
 
+    const handleSubmit = (e: any) => {
+        e.preventDefault();
+        const formData = new FormData();
 
+        formData.append(
+            "data",
+            JSON.stringify({
+                title,
+                personic: personic,
+                store: storeIdSelected,
+            })
+        );
+
+        fetch(`http://localhost:1337/api/orders`, {
+            method: "POST",
+            mode: "cors",
+            headers: {
+                Authorization: `Bearer ${jwt}`,
+            },
+            body: formData,
+        })
+            .then(() => {
+                successToast();
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
 
     return (
-        <div className="bg-white fixed top-0 right-0 left-0 flex justify-between h-[70px] shadow-md z-20 px-20">
+        <div className="bg-white fixed top-0 right-0 left-0 flex justify-between h-20 shadow-md z-20 px-20">
             <ToastContainer
                 autoClose={5000}
                 hideProgressBar={false}
@@ -102,98 +161,205 @@ export default function HeadNav() {
                 pauseOnHover
                 theme="light"
             />
-            <div className='text-2xl font-semibold flex items-center gap-2 w-1/2'>
+            <div className="text-2xl font-semibold flex items-center gap-2 w-1/2">
                 <BiCookie />
-                <Link to={'/'}>Đặt cơm CMC</Link>
+                <Link to={"/"}>Đặt cơm CMC</Link>
             </div>
             <div className="flex items-center gap-4 font-medium">
-                {jwt ?
-                    (<div className="flex items-center gap-4">
-                        <Link to={'/stores'}>
-                            Cửa hàng
-                        </Link>
-                        <Link to={'/orders'}>
-                            Tất cả đơn hàng
-                        </Link>
-                        <button>
-                            Vote
+                {jwt ? (
+                    <div className="flex items-center gap-4">
+                        <button
+                            onClick={() => {
+                                toggleVoteModal();
+                            }}
+                        >
+                            Tạo đơn
                         </button>
-                        <Link to={'/histories'}>
-                            Giỏ hàng
-                        </Link>
-                        <div >
+
+                        {votemodal && (
+                            <div className="modal">
+                                <div className="overlay flex justify-center items-center ">
+                                    <form
+                                        onSubmit={handleSubmit}
+                                        className="w-4/5 pt-5 pb-5 pr-4 pl-4 bg-white flex flex-col justify-between "
+                                    >
+
+                                        <div className="flex justify-between text-2xl text-slate-950 ">
+                                            <p>Tạo đơn hàng</p>
+                                            <button onClick={BackButton}>
+                                                <AiFillCloseCircle />
+                                            </button>
+                                        </div>
+
+                                        <hr className="w-full bg-black mt-2 mb-2"></hr>
+                                        <div className="flex flex-col w-full">
+                                            <div className="flex-1 flex flex-col justify-center mb-4">
+                                                <div className="text-slate-950 ">Tiêu đề đơn hàng</div>
+                                                <input
+                                                    type="text"
+                                                    className="w-full pl-2 h-8 text-slate-950"
+                                                    placeholder="VD:Tên đơn..."
+                                                    name="fullName"
+                                                    value={title}
+                                                    onChange={(e) => setTitle(e.target.value)}
+                                                />
+                                            </div>
+
+                                            <div className="flex h-10 items-center w-full border-[1px] rounded-full">
+                                                <input
+                                                    type="text"
+                                                    placeholder="Search"
+                                                    className="w-full pl-3 focus:outline-none rounded-2xl"
+                                                />
+                                                <BsSearch className="m-4 cursor-pointer" />
+                                            </div>
+                                        </div>
+
+                                        <div className="h-70 overflow-hidden overflow-y-scroll p-2 mt-2 mb-2 grid grid-cols-4 gap-7 border-[1px] border-rgb(0 0 0 1) ">
+                                            {stores &&
+                                                stores.map((store) => (
+                                                    <div
+                                                        key={store.id}
+                                                        className={`flex flex-col border-2 group ease-in-out duration-300 cursor-pointer overflow-hidden ${storeIdSelected === store.id
+                                                            ? "border-blue-500"
+                                                            : ""
+                                                            }`}
+                                                        onClick={() => handleOnClick(store.id)}
+                                                    >
+                                                        <div className="relative overflow-hidden">
+                                                            <img
+                                                                src={defaultFood}
+                                                                alt="No Food img founded"
+                                                                className="bg-no-repeat bg-contain bg-center group-hover:scale-110"
+                                                            />
+                                                            <div className="flex items-center justify-end absolute top-2 right-2">
+                                                                <input
+                                                                    type="checkbox"
+                                                                    checked={storeIdSelected === store.id}
+                                                                    onChange={() => { }}
+                                                                    className="w-4 h-4 accent-blue-500 pointer-events-none"
+                                                                />
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="flex flex-col text-start group-hover:font-semibold px-2 py-2">
+                                                            <h3 className=" font-medium text-lg">
+                                                                {store.attributes.storeName}
+                                                            </h3>
+                                                            <p className="text-xs">Cách đây 0.6km</p>
+                                                            <div className="">Component star rate</div>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                        </div>
+
+
+
+                                        <div className="flex justify-between items-center h-8 ">
+                                            <button
+                                                onClick={BackButton}
+                                                className="text-slate-950 w-20   border-[2px] h-full rounded-lg hover:bg-black bg-white hover:text-white"
+                                            >
+                                                Trở lại
+                                            </button>
+                                            <button
+                                                type="submit"
+                                                className="text-slate-950 w-20  border-[2px] h-full rounded-lg hover bg-white hover:bg-black hover:text-white"
+                                            >
+                                                Lưu
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        )}
+
+                        <Link to={"/stores"}>Cửa hàng</Link>
+                        <Link to={"/orders"}>Tất cả đơn hàng</Link>
+                        {/* <Link to={"/vote"}>Vote</Link> */}
+                        <Link to={"/histories"}>Giỏ hàng</Link>
+                        <div>
                             <img
                                 onClick={(e) => {
                                     e.stopPropagation();
-                                    setOpen(old => !old)
+                                    setOpen((old) => !old);
                                 }}
                                 src={defaultAva}
-                                className="cursor-pointer w-10 h-10 rounded-full shadow-xl" />
+                                className="cursor-pointer w-10 h-10 rounded-full shadow-xl"
+                            />
                         </div>
-                        {
-                            open &&
-                            <div ref={menuRef} className="bg-white p-4 w-30 shadow-2xl absolute top-[86%] right-[6%] rounded-lg">
+                        {open && (
+                            <div
+                                className="bg-white p-4 w-30 shadow-2xl absolute top-[86%] right-[6%] rounded-lg"
+                            >
                                 <ul>
-                                    <Link to={'/profile'} className="w-full flex p-2 text-lg cursor-pointer rounded hover:bg-blue-50">
+                                    <Link
+                                        to={"/profile"}
+                                        className="w-full flex p-2 text-lg cursor-pointer rounded hover:bg-blue-50"
+                                    >
                                         Profile
                                     </Link>
                                     <li className="p-2 text-lg cursor-pointer rounded hover:bg-blue-50">
                                         Setting
                                     </li>
-                                    <li onClick={handleLogout} className="p-2 text-lg cursor-pointer rounded hover:bg-blue-50">
+                                    <li
+                                        onClick={handleLogout}
+                                        className="p-2 text-lg cursor-pointer rounded hover:bg-blue-50"
+                                    >
                                         Logout
                                     </li>
                                 </ul>
                             </div>
-                        }
+                        )}
                     </div>
-                    )
-                    :
-                    (<div>
-                        <button onClick={toggleModal}>
-                            Đăng nhập
-                        </button>
-                    </div>)
-                }
+                ) : (
+                    <div>
+                        <button onClick={toggleModal}>Đăng nhập</button>
+                    </div>
+                )}
                 {modal && (
                     <div className="modal">
                         <div className="overlay">
                             <div className="modal-content">
-                                <div className='flex justify-center'>
-                                    <img src={cmclogo} alt="" className='h-36 w-80' />
+                                <div className="flex justify-center">
+                                    <img src={cmclogo} alt="" className="h-36 w-80" />
                                 </div>
 
                                 <button className="close-modal" onClick={toggleModal}>
                                     <AiFillCloseCircle />
                                 </button>
-                                <div className='mt-8'>
+                                <div className="mt-8">
                                     <p>Email</p>
-                                    <div className='bg-white h-10 flex justify-center items-center'>
+                                    <div className="bg-white h-10 flex justify-center items-center">
                                         <FaUserAlt className="ml-3" />
-                                        <input type="text"
-                                            placeholder='Email'
-                                            className='w-full pl-3 focus:outline-none'
-                                            name='identifier'
+                                        <input
+                                            type="text"
+                                            placeholder="Email"
+                                            className="w-full pl-3 focus:outline-none"
+                                            name="identifier"
                                             value={user.identifier}
-                                            onChange={handleChange} />
+                                            onChange={handleChange}
+                                        />
                                     </div>
                                 </div>
-                                <div className='mt-4'>
+                                <div className="mt-4">
                                     <p>Password</p>
-                                    <div className='bg-white h-10 flex justify-center items-center'>
+                                    <div className="bg-white h-10 flex justify-center items-center">
                                         <RiLockPasswordFill className="ml-3" />
-                                        <input type="password"
-                                            placeholder='Password'
-                                            className='w-full pl-3 focus:outline-none'
-                                            name='password'
+                                        <input
+                                            type="password"
+                                            placeholder="Password"
+                                            className="w-full pl-3 focus:outline-none"
+                                            name="password"
                                             value={user.password}
-                                            onChange={handleChange} />
+                                            onChange={handleChange}
+                                        />
                                     </div>
                                 </div>
                                 <div>
-                                    <div className='flex items-center justify-between mt-3 w-full'>
-                                        <div className='flex items-center gap-2'>
-                                            <input type="checkbox" className='h-3 ' />
+                                    <div className="flex items-center justify-between mt-3 w-full">
+                                        <div className="flex items-center gap-2">
+                                            <input type="checkbox" className="h-3 " />
                                             <div>
                                                 <p>Lưu tài khoản</p>
                                             </div>
@@ -203,15 +369,21 @@ export default function HeadNav() {
                                         </button>
                                     </div>
                                 </div>
-                                <div className='mt-10'>
+                                <div className="mt-10">
                                     <button
                                         onClick={handleLogin}
-                                        className='w-full h-10 items-center bg-[#1676F3]  flex justify-center'>
+                                        className="w-full h-10 items-center bg-[#1676F3]  flex justify-center"
+                                    >
                                         Đăng nhập
                                     </button>
                                 </div>
-                                <div className='mt-8'>
-                                    <div className='flex justify-center'>Chưa có tài khoản? <Link to={'/register'} className='text-[#1676F3] ml-1'>Đăng ký</Link></div>
+                                <div className="mt-8">
+                                    <div className="flex justify-center">
+                                        Chưa có tài khoản?{" "}
+                                        <Link to={"/register"} className="text-[#1676F3] ml-1">
+                                            Đăng ký
+                                        </Link>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -219,5 +391,5 @@ export default function HeadNav() {
                 )}
             </div>
         </div>
-    )
+    );
 }

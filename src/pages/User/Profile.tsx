@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { IUser } from "./type";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import { AiFillCloseCircle } from "react-icons/ai";
 
 function Profile() {
     const [modal, setModal] = useState(false);
@@ -189,11 +190,8 @@ function Profile() {
                                                 </button>
                                             </div>
 
-                                            <button
-                                                className="close-modal text-xl hover:text-black text-slate-400 "
-                                                onClick={toggleModal}
-                                            >
-                                                x
+                                            <button className="close-modal text-black" onClick={() => toggleModal()}>
+                                                <AiFillCloseCircle />
                                             </button>
                                         </div>
                                     </div>

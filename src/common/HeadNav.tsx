@@ -176,11 +176,11 @@ export default function HeadNav() {
             </button>
 
             {votemodal && (
-              <div className="modal">
+              <div className="modal overflow-hidden">
                 <div className="overlay flex justify-center items-center ">
                   <form
                     onSubmit={handleSubmit}
-                    className="w-4/5 pt-5 pb-5 pr-4 pl-4 bg-white flex flex-col justify-between "
+                    className="w-4/5 py-5 px-4 h-5/6 bg-white flex flex-col justify-between"
                   >
                     <div className="flex justify-center text-2xl text-slate-950 ">
                       Tạo đơn hàng
@@ -209,24 +209,28 @@ export default function HeadNav() {
                       </div>
                     </div>
 
-                    <div className="h-70 overflow-hidden overflow-y-scroll p-2 mt-2 mb-2 grid grid-cols-4 gap-7 border-[1px] border-rgb(0 0 0 1) ">
+                    {/* Thêm scroll cho danh sách cửa hàng */}
+                    <div className="overflow-hidden overflow-y-scroll p-2 mt-2 mb-2 grid grid-cols-4 gap-7 border-[1px] border-rgb(0 0 0 1) ">
+
                       {stores &&
                         stores.map((store) => (
                           <div
                             key={store.id}
-                            className={`flex flex-col border-2 group ease-in-out duration-300 cursor-pointer overflow-hidden ${
+                            // Thêm thuộc tính flex flex-col để độ dài ảnh và tiltle bằng nhau
+                            className={`h-60 flex flex-col border-2 group ease-in-out duration-300 cursor-pointer overflow-hidden ${
                               storeIdSelected === store.id
                                 ? "border-blue-500"
                                 : ""
                             }`}
                             onClick={() => handleOnClick(store.id)}
                           >
-                            <div className="relative overflow-hidden">
+                            <div className="relative flex-1 ">
                               <img
                                 src={defaultFood}
                                 alt="No Food img founded"
-                                className="bg-no-repeat bg-contain bg-center group-hover:scale-110"
+                                className="object-cover w-full h-full group-hover:scale-110"
                               />
+
                               <div className="flex items-center justify-end absolute top-2 right-2">
                                 <input
                                   type="checkbox"
@@ -236,12 +240,13 @@ export default function HeadNav() {
                               </div>
                             </div>
 
-                            <div className="flex flex-col text-start group-hover:font-semibold px-2 py-2">
-                              <h3 className=" font-medium text-lg">
+                            <div className="flex-1 text-start group-hover:font-semibold px-2 py-1">
+                              {/* giới hạn 1 dòng cho các thẻ h3,p và div bằng whitespace-nowrap và truncate.Đồng thời thêm tiltle ở trong thẻ h3 */}
+                              <h3 title={store.attributes.storeName} className="font-medium text-lg leading-6 overflow-hidden whitespace-nowrap truncate">
                                 {store.attributes.storeName}
                               </h3>
-                              <p className="text-xs">Cách đây 0.6km</p>
-                              <div className="">Component star rate</div>
+                              <p className="text-xs my-1 overflow-hidden whitespace-nowrap truncate">Cách đây 0.6km </p>
+                              <div className="leading-5 overflow-hidden whitespace-nowrap truncate">Component star rate</div>
                             </div>
                           </div>
                         ))}

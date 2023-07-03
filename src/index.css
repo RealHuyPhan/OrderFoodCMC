@@ -37,9 +37,8 @@ body.active-modal {
   left: 50%;
   transform: translate(-50%, -50%);
   line-height: 1.4;
-  background: #f1f1f1;
   padding: 14px 28px;
-  border-radius: 3px;
+  border-radius: 15px;
   max-width: 600px;
   min-width: 300px;
 }
@@ -110,9 +109,9 @@ body.active-modal {
 }
 
 //Animation for text
-  textOverImage {
-    background-size: cover !important;
-  }
+textOverImage {
+  background-size: cover !important;
+}
 
 .textOverImage {
   position: relative;

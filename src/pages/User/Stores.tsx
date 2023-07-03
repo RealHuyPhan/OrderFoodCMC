@@ -117,7 +117,7 @@ export default function Stores() {
                 pauseOnHover
                 theme="light"
             />
-            <div className='mt-28 relative'>
+            <div className='mt-24 relative'>
                 <div className='w-full'>
                     <div className='flex'>
                         <div className='flex-1 justify-center flex'>
@@ -135,38 +135,36 @@ export default function Stores() {
                             {modal && (
                                 <div className="modal">
                                     <div className="overlay">
-                                        <div className="modal-content">
-                                            <h2 className="flex justify-center items-center border-b-[2px] pb-2">
+                                        <div className="modal-content bg-white">
+                                            <h2 className="flex items-center font-bold text-2xl text-[#1C9AD6]">
                                                 Tạo đơn mới
                                             </h2>
                                             <form className='w-full' onSubmit={handleSubmit}>
-                                                <div className='flex w-full justify-center'>
+                                                <div className='flex w-full'>
                                                     <input
                                                         type="text"
                                                         placeholder='Nhập tiêu đề..'
-                                                        className='w-3/4 pl-3 focus:outline-none mt-2'
+                                                        className='w-full bg-slate-100 border-[1px] h-8 rounded-md pl-3 focus:outline-sky-500 mt-2'
                                                         value={title}
                                                         name="title"
                                                         onChange={(e) => setTitle(e.target.value)}
                                                     />
                                                 </div>
-                                                <p className='mt-5'>Xác nhận thêm bánh mì ông gì đó vào cửa hàng</p>
-                                                <div className='flex w-full justify-center '>
+                                                <p className='mt-2 text-sm'>Xác nhận thêm bánh mì ông gì đó vào cửa hàng</p>
+                                                <div className='flex w-full justify-center gap-2 text-white'>
                                                     <button
                                                         type='submit'
-                                                        className='mt-8 bg-blue-400 h-10 w-20 rounded-full'>
+                                                        className='mt-8 bg-[#1C9AD6] h-10 w-20 rounded-xl font-semibold'>
                                                         Xác nhận
                                                     </button>
+                                                    <button
+                                                        onClick={toggleModal}
+                                                        type='submit'
+                                                        className='mt-8 bg-[#1C9AD6] h-10 w-20 rounded-xl font-semibold'>
+                                                        Hủy
+                                                    </button>
                                                 </div>
-
                                             </form>
-
-                                            <button className="close-modal" onClick={toggleModal}>
-                                                <FontAwesomeIcon
-                                                    icon={faXmark}
-                                                    className="flex justify-center"
-                                                />
-                                            </button>
                                         </div>
                                     </div>
                                 </div>

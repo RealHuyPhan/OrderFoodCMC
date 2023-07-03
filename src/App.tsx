@@ -10,8 +10,6 @@ import Stores from './pages/User/Stores';
 import Histories from './pages/User/Histories';
 import ListStore from './pages/User/ListStore';
 import OrderDetail from './pages/User/Order/OrderDetail';
-import Vote from './pages/User/Vote';
-import VoteItem from './pages/User/VoteItem';
 
 
 
@@ -31,8 +29,6 @@ function App() {
         <Route path='orders' element={<Protector component={<Orders />} />} />
         <Route path='stores/:id/foods/:id' element={<Protector component={<Foods />} />} />
         <Route path='orders/:id' element={<Protector component={<OrderDetail />} />} />
-        <Route path='vote' element={<Protector component={<Vote />} />} />
-        <Route path='vote/:id' element={<Protector component={<VoteItem />} />} />
       </Routes>
     </div>
   )

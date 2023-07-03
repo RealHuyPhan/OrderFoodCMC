@@ -23,6 +23,10 @@ function OrderDetail() {
 
     const [comment, setComment] = useState<string | any>();
 
+
+    // const { } = useQuery();
+
+
     const handleRating = (newValue: number) => {
         const formData = new FormData();
         formData.append(
@@ -203,7 +207,7 @@ function OrderDetail() {
                                 comment={comment}
                                 setComment={setComment}
                                 handleAddComment={handleAddComment}
-                            />) : (<OrderVote orderId={id}/>)
+                            />) : (<OrderVote orderId={id} />)
                     }
                 </div>
             </div >

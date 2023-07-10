@@ -25,24 +25,28 @@ function LandingPage() {
   const handleOrder = () => {
     navigate("/orders");
   };
+  const handleRegister = () => {
+    navigate("/register");
+  };
 
   useEffect(() => {
-    const getOrders = () => {
-      axios
-        .get(`http://localhost:1337/api/orders?populate=*`, {
-          headers: {
-            Authorization: `Bearer ${jwt}`,
-          },
-        })
-        .then((res) => {
-          setOrders(res.data.data);
-          console.log(res.data.data, "store?");
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    };
-    getOrders();
+    if (jwt) {
+      const getOrders = () => {
+        axios
+          .get(`http://localhost:1337/api/orders?populate=*`, {
+            headers: {
+              Authorization: `Bearer ${jwt}`,
+            },
+          })
+          .then((res) => {
+            setOrders(res.data.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      };
+      getOrders();
+    }
   }, [jwt]);
 
   return (
@@ -50,14 +54,14 @@ function LandingPage() {
       <HeadNav />
       <div
         style={{ backgroundImage: `url(${bg_top})` }}
-        className="mt-20 bg-no-repeat bg-cover bg-center"
+        className="mt-[80px] bg-no-repeat bg-cover bg-center"
       >
-        <div className="w-full flex">
-          <div className="flex relative w-full flex-wrap content-start">
-            <div className="w-1/2">
-              <div className="w-full relative flex h-full items-center pl-9">
-                <div className=" p-[30px] relative w-full flex-wrap">
-                  <div className="font-bold text-4xl">
+        <div className="w-full md:flex">
+          <div className="md:flex relative w-full md:flex-wrap content-start">
+            <div className="md:w-1/2 w-full h-full">
+              <div className="w-full relative flex h-full items-center md:pl-9">
+                <div className=" p-[30px] relative w-full flex-wrap z-10">
+                  <div className="font-bold md:text-4xl text-xl ">
                     <div className="inline">
                       <label className="mt-1">
                         <span className="">Đặt cơm với chỉ vài nút click</span>
@@ -67,11 +71,11 @@ function LandingPage() {
                       </label>
                     </div>
                   </div>
-                  <div className="text-white font-extralight text-lg my-2">
+                  <div className="md:text-lg text-base my-2 text-white text-shadow-[0_2px_0px_var(--tw-shadow-color)] shadow-indigo-500/50">
                     Chỉ cần ngồi một chỗ, bạn có thể đặt cơm từ trước mà không
                     cần phải hỏi: Hôm nay ăn gì?
                   </div>
-                  <div>
+                  <div className="flex justify-center md:justify-start">
                     <PrimaryButton
                       width={105}
                       height={33}
@@ -85,10 +89,14 @@ function LandingPage() {
                 </div>
               </div>
             </div>
-            <div className="w-1/2">
-              <div className="w-full relative flex">
-                <div className="content-center items-center flex p-[10px] relative w-full flex-wrap">
-                  <img src={food_top} alt="" className="max-w-full h-auto" />
+            <div className="md:w-1/2 w-0 collapse md:visible">
+              <div className="md:w-full md:relative md:flex">
+                <div className="md:content-center md:items-center md:flex md:p-[10px] md:relative md:w-full md:flex-wrap">
+                  <img
+                    src={food_top}
+                    alt=""
+                    className="md:max-w-full md:h-auto "
+                  />
                 </div>
               </div>
             </div>
@@ -96,59 +104,49 @@ function LandingPage() {
         </div>
       </div>
       {jwt ? (
-        <>
-          <div>
-            <p className="font-bold text-2xl text-center mt-8">
-              Đặt cơm ngày hôm nay
-            </p>
-            <div className="max-h-52 flex overflow-x-auto m-3 scrollbar-c-s-o scrollbar-ie-e-ff">
-              {orders &&
-                orders.map((order: IOrder) => (
-                  <Link
-                    to={`/orders/${order.id}`}
-                    key={order.id}
-                    className="min-w-[230px] h-[150px] text-center bg-pink-500 mx-[2px] textOverImage"
-                    data-title={order.attributes.title}
-                    data-text={order.attributes.createdAt}
-                  >
-                    <img src={defaultImg} alt="" className="w-full h-full" />
-                  </Link>
-                ))}
-            </div>
+        <div>
+          <p className="font-bold text-2xl text-center mt-8">
+            Đặt cơm ngày hôm nay
+          </p>
+          <div className="max-h-52 flex overflow-x-auto m-3 scrollbar-c-s-o scrollbar-ie-e-ff">
+            {orders &&
+              orders.map((order: IOrder) => (
+                <Link
+                  to={`/orders/${order.id}`}
+                  key={order.id}
+                  className="min-w-[230px] h-[150px] text-center bg-pink-500 mx-[2px] textOverImage"
+                  data-title={order.attributes.title}
+                  data-text={order.attributes.createdAt}
+                >
+                  <img src={defaultImg} alt="" className="w-full h-full" />
+                </Link>
+              ))}
           </div>
-
-          <div>
-            <p className="font-bold text-2xl text-center mt-8">Đã vote</p>
-            <div className="max-h-52 flex overflow-x-auto m-3 scrollbar-c-s-o scrollbar-ie-e-ff">
-              <div
-                className="min-w-[230px] h-[150px] text-center bg-pink-500 mx-[2px] textOverImage"
-              >
-                <img src={defaultImg} alt="" className="w-full h-full" />
-              </div>
-            </div>
-          </div>
-        </>
+        </div>
       ) : (
         <>
-          <div className="mt-16 px-7">
+          <div className="py-2 md:px-0 md:mt-16 px-7">
+            {/* Sửa trang giữa từ dòng py-2 */}
             <div>
               <div className="flex items-center justify-center">
-                <p className="text-[#FFCB45]">Chung tôi hoạt động ra sao</p>
+                <p className="text-[#FFCB45] text-lg">
+                  Chúng tôi hoạt động ra sao
+                </p>
               </div>
               <div className="flex items-center justify-center mt-2 mb-5">
                 <p className="font-extrabold text-xl">What We Serve</p>
               </div>
               <div className="flex items-center justify-center w-full">
-                <div className="w-1/2 flex items-center justify-center text-center">
-                  <p className="text-slate-600">
+                <div className=" md:w-1/2 flex items-center justify-center text-center">
+                  <p className="text-slate-600 text-lg font-bold">
                     Chúng tôi sẽ cập nhật các cửa hàng và đồ ăn hàng ngày, ai
                     cũng có thể vote để chọn đồ ăn, tránh ăn những đồ ăn mà mình
                     không thích trong hôm đó.
                   </p>
                 </div>
               </div>
-              <div className="flex flex-row flex-wrap w-full gap-5  mt-9">
-                <div className="flex-[30%]">
+              <div className="flex md:flex-row md:flex-wrap w-full flex-col gap-5 mt-9">
+                <div className="md:flex-[30%] w-full flex-1">
                   <div className="flex items-center justify-center">
                     <img src={option1} alt="option" />
                   </div>
@@ -156,12 +154,12 @@ function LandingPage() {
                     <h3 className="font-bold text-2xl my-4">
                       Dễ dàng chọn lựa
                     </h3>
-                    <p className="text-sm text-slate-600">
+                    <p className="text-base text-slate-600 font-semibold">
                       Cửa hàng và đồ ăn sẽ được cập nhật hàng ngày
                     </p>
                   </div>
                 </div>
-                <div className="flex-[30%]">
+                <div className="md:flex-[30%] w-full flex-1">
                   <div className="flex items-center justify-center">
                     <img src={option2} alt="option" />
                   </div>
@@ -169,12 +167,12 @@ function LandingPage() {
                     <h3 className="font-bold text-2xl my-4">
                       Tiết kiệm thời gian
                     </h3>
-                    <p className="text-sm text-slate-600">
+                    <p className="text-base text-slate-600 font-semibold">
                       Bạn có thể đặt đồ ăn cho ngày hôm sau bất cứ lúc nào
                     </p>
                   </div>
                 </div>
-                <div className="flex-[30%]">
+                <div className="md:flex-[30%] w-full flex-1">
                   <div className="flex items-center justify-center">
                     <img src={option3} alt="option" />
                   </div>
@@ -182,7 +180,7 @@ function LandingPage() {
                     <h3 className="font-bold text-2xl my-4">
                       Order thân thiện
                     </h3>
-                    <p className="text-sm text-slate-600">
+                    <p className="text-base text-slate-600 font-semibold">
                       Với những đồ ăn mà bạn không thích, bạn có thể rate sao để
                       tránh lần sau order lại những món đó
                     </p>
@@ -194,7 +192,7 @@ function LandingPage() {
           <div className="mt-10">
             <div
               style={{ backgroundImage: `url(${bg_bottom})` }}
-              className="mt-20 bg-no-repeat bg-cover bg-center h-48"
+              className="mt-20 bg-no-repeat bg-cover bg-center h-48 text-center"
             >
               <div className="flex justify-center items-center h-[60%]">
                 <h3 className="font-extrabold text-2xl text-[#FFFFFF]">
@@ -208,6 +206,7 @@ function LandingPage() {
               </div>
               <div className="flex justify-center mt-1">
                 <PrimaryButton
+                  onClick={handleRegister}
                   width={105}
                   height={33}
                   fontWeight={700}
@@ -223,16 +222,18 @@ function LandingPage() {
 
       <footer
         style={{ backgroundImage: `url(${footer})` }}
-        className="flex justify-around bg-no-repeat bg-cover bg-top mt-20 h-[300px] w-full"
+        className="flex bg-no-repeat bg-cover bg-top mt-20  w-full"
       >
-        <div className="mt-20 flex justify-around w-full px-7">
-          <div>
-            <h3 className="text-2xl font-bold mb-4 flex gap-2 items-center">
+        <div className="md:mt-14 md:flex md:pb-8 pt-2 md:justify-stretch w-full px-7 text-shadow-[0_2px_0px_var(--tw-shadow-color)] shadow-indigo-500/50">
+          <div className="md:px-2">
+            <h3 className="text-2xl font-bold mb-4 flex gap-2 items-center justify-center md:justify-normal">
               <div>Đặt cơm CMC</div>
               <GiNoodles className="text-[#FAA41A] text-3xl" />
             </h3>
-            <p>Được thực hiện bởi 2 thành viên thực tập</p>
-            <div className="flex mt-5 gap-6">
+            <p className="hidden md:block text-white text-lg ">
+              Web đặt cơm dành cho mọi thành viên của gia đình CMC
+            </p>
+            <div className="flex my-5 gap-6 justify-center md:justify-normal">
               <div className="rounded-full bg-white h-9 w-9 justify-center items-center flex">
                 <AiOutlineInstagram className="h-5 w-5" />
               </div>
@@ -244,28 +245,57 @@ function LandingPage() {
               </div>
             </div>
           </div>
-          <div>
-            <h3 className="text-2xl font-bold mb-4">Hợp tác với</h3>
-            <p>Nguyễn Chí Tiến</p>
-            <br />
-            <p>Nguyễn Văn Hải</p>
-            <br />
-            <p>CMC</p>
+
+          <div className="w-full border-[1px]  md:hidden"></div>
+
+          <div className="md:px-2">
+            <h3 className=" text-black text-2xl font-bold  my-5 md:mb-4 md:mt-0 ">
+              Hợp tác với
+            </h3>
+            <div className="text-white text-lg font-sans">
+              <p>Nguyễn Chí Tiến</p>
+              <br className="hidden md:block" />
+              <p>Nguyễn Văn Hải</p>
+              <br className="hidden md:block" />
+              <p>CMC</p>
+            </div>
           </div>
-          <div>
-            <h3 className="text-2xl font-bold mb-4">Điều khoản</h3>
-            <p>FAQ</p>
-            <br />
-            <p>Privacy</p>
-            <br />
-            <p>Shipping</p>
+
+          <div className="md:px-2">
+            <h3 className="text-black text-2xl font-bold  my-5 md:mb-4 md:mt-0">
+              Điều khoản
+            </h3>
+            <div className="text-white text-lg font-sans">
+              <p>FAQ</p>
+              <br className="hidden md:block" />
+              <p>Privacy</p>
+              <br className="hidden md:block" />
+              <p>Shipping</p>
+            </div>
           </div>
-          <div>
-            <h3 className="text-2xl font-bold mb-4">Liên hệ</h3>
-            <p className="mb-5">+84 385 107 196</p>
-            <p>huyphansy226@gmail.com</p>
-            <br />
-            <p>trunghieu140299@gmai.com</p>
+
+          <div className="md:px-2">
+            <h3 className="text-black text-2xl font-bold  my-5 md:mb-4 md:mt-0">
+              Thực hiện bởi
+            </h3>
+            <div className="text-white text-lg font-sans">
+              <p>Phan Sỹ Huy</p>
+              <br className="hidden md:block" />
+              <p>Thái Trung Hiếu</p>
+              <br className="hidden md:block" />
+            </div>
+          </div>
+          <div className="md:px-2">
+            <h3 className="text-2xl text-black font-bold my-5 md:mb-4 md:mt-0">
+              Liên hệ
+            </h3>
+            <div className="text-white text-lg font-sans">
+              <p>huyphansy226@gmail.com</p>
+              <br className="hidden md:block" />
+              <p>trunghieu140299@gmail.com</p>
+              <br className="hidden md:block" />
+              <p className="mb-5">SĐT:084 385 107 196</p>
+            </div>
           </div>
         </div>
       </footer>

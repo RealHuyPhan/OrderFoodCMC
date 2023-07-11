@@ -391,7 +391,7 @@ export default function HeadNav() {
         {modal && (
           <div className="modal">
             <div className="overlay">
-              <div className="modal-content">
+              <div className="modal-content text-black">
                 <div className="flex justify-center">
                   <img src={cmclogo} alt="" className="h-36 w-80" />
                 </div>

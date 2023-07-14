@@ -6,18 +6,53 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/ReactToastify.css";
 import imgbg from "../../assets/profilebg.jpg";
+import { useMutation } from "@tanstack/react-query";
 
 //Responsive lại profile ngày 4/7/2023
 //Css lại profile ngày 7/7/2023
 function Profile() {
   const [modal, setModal] = useState(false);
+  const [modalChangepassword, setModalChangepassword] = useState(false);
   const [profile, setProfile] = useState<IUser>();
+  const [password, setPassword] = useState<string>();
   const getData = JSON.parse(localStorage.getItem("user") || "{}");
   const jwt = getData.jwt;
   const id = getData.id;
   const [isGetData, setIsGetData] = useState(true);
-  const [image, setImage] = useState();
   const navigate = useNavigate();
+
+  const changePassword = async (payload: {
+    jwt: string;
+    password: string | undefined;
+  }) => {
+    const { jwt, password } = payload;
+
+    return axios.put(
+      `http://localhost:1337/api/users/${id}`,
+      { password },
+      {
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      }
+    );
+  };
+
+  const changePasswordMutation = useMutation(changePassword);
+
+  const handleChangePassword = () => {
+    changePasswordMutation.mutate(
+      {
+        jwt,
+        password,
+      },
+      {
+        onSuccess: () => {
+          console.log("Thành công")
+        },
+      }
+    );
+  };
 
   const initialEdit = {
     fullName: undefined,
@@ -39,7 +74,6 @@ function Profile() {
       })
       .then((res) => {
         setProfile(res.data as IUser);
-        console.log(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -54,11 +88,25 @@ function Profile() {
     toggleModal();
   };
 
+  const AfterChangePassword = () => {
+    toggleModalPassword();
+  };
+
   const toggleModal = () => {
     setModal(!modal);
   };
 
+  const toggleModalPassword = () => {
+    setModalChangepassword(!modalChangepassword);
+  };
+
   if (modal) {
+    document.body.classList.add("active-modal");
+  } else {
+    document.body.classList.remove("active-modal");
+  }
+
+  if (modalChangepassword) {
     document.body.classList.add("active-modal");
   } else {
     document.body.classList.remove("active-modal");
@@ -85,18 +133,12 @@ function Profile() {
   };
 
   const handleUserChange = ({ target }: any) => {
+    
     const { name, value } = target;
     setEdit((currentEdit) => ({
       ...currentEdit,
       [name]: value,
     }));
-  };
-
-  const handlePreviewImage = (e: any) => {
-    const file = e.target.files[0];
-
-    file.preview = URL.createObjectURL(file);
-    setImage(file);
   };
 
   useEffect(() => {
@@ -162,17 +204,17 @@ function Profile() {
                       alt=""
                       className="opacity-100 backface-hidden rounded-full group-hover:opacity-30 h-32 w-32 "
                     />
-                    <button className="absolute top-0 left-0 right-0 bottom-0 h-32 w-32 test-base rounded-full hidden group-hover:block text-white">Edit</button>
+                    <button className="absolute top-0 left-0 right-0 bottom-0 h-32 w-32 test-base rounded-full hidden group-hover:block text-white">
+                      Edit
+                    </button>
                   </div>
-    
-                  <p className="w-full text-base overflow-hidden ">
-                    {profile.fullName}
-                  </p>
+
+                  <p className="w-full text-base ">{profile.fullName}</p>
                 </div>
 
                 <div className="border-[1px] w-full bg-black "></div>
 
-                <div className="w-full text-start overflow-hidden ">
+                <div className="w-full text-start ">
                   <div>
                     <p>Ngày sinh: {profile.dob}</p>
                   </div>
@@ -215,7 +257,7 @@ function Profile() {
                           key={qr.id}
                           src={`http://localhost:1337${qr.url}`}
                           alt="qr code"
-                          className="md:w-52 md:h-52   bg-white"
+                          className="md:w-52 md:h-52 bg-white"
                         />
                       );
                     })}
@@ -228,13 +270,16 @@ function Profile() {
                 <div className="border-[1px] w-full bg-black"></div>
 
                 <div className="flex justify-between w-full gap-4 md:gap-0">
-                  <button className="border-[1px]  hover:bg-[#1C9AD6] hover:text-white text-black bg-white rounded-2xl text-center px-2 py-1 ">
+                  <button
+                    onClick={toggleModalPassword}
+                    className="border-[1px]  hover:bg-[#1C9AD6] hover:text-white text-black bg-white rounded-2xl text-center px-2 py-1 "
+                  >
                     Đổi mật khẩu
                   </button>
 
                   <button
                     onClick={handleLogout}
-                    className="border-[1px]  hover:bg-[#1C9AD6] hover:text-white text-black bg-white rounded-2xl text-center px-2 py-1"
+                    className="border-[1px] hover:bg-[#1C9AD6] hover:text-white text-black bg-white rounded-2xl text-center px-2 py-1"
                   >
                     Đăng xuất
                   </button>
@@ -259,6 +304,7 @@ function Profile() {
                   <div className="text-slate-950 ">Họ và tên</div>
 
                   <input
+                    maxLength={40}
                     type="text"
                     className="w-full pl-2 h-8 text-slate-950"
                     placeholder="VD:Nguyễn Văn A..."
@@ -276,7 +322,7 @@ function Profile() {
                     placeholder="VD:01/01/2001"
                     name="dob"
                     value={edit.dob || ""}
-                    onChange={handleUserChange}
+                    onChange={handleUserChange}                   
                   />
                 </div>
 
@@ -284,11 +330,12 @@ function Profile() {
                   <div className="text-slate-950 ">Số điện thoại</div>
                   <input
                     type="number"
+                    pattern="[0-9]"
                     className="w-full pl-2 h-8 text-slate-950"
                     placeholder="VD:0123456789"
                     name="phone"
                     value={edit.phone || ""}
-                    onChange={handleUserChange}
+                    onChange={handleUserChange}                 
                   />
                 </div>
               </div>
@@ -315,6 +362,54 @@ function Profile() {
                 x
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {modalChangepassword && (
+        <div className="modal">
+          <div className="overlay">
+            <form className="modal-content w-2/3 bg-white">
+              <div className="flex justify-center text-2xl  text-slate-950 mt-5 mb-5">
+                Đổi mật khẩu
+              </div>
+
+              <div className="flex flex-col w-full">
+                <div className="flex-1 flex flex-col justify-center">
+                  <div className="text-slate-950 ">Mật khẩu mới</div>
+                  <input
+                    autoComplete="on"
+                    type="password"
+                    className="w-full pl-2 h-8 text-slate-950"
+                    placeholder="VD:123456..."
+                    value={password || ""}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                </div>
+              </div>
+
+              <div className="flex justify-between items-center mt-2 h-8  ">
+                <button
+                  onClick={handleChangePassword}
+                  className="text-slate-950 w-20 border-[2px] h-full rounded-lg hover:bg-black bg-white hover:text-white"
+                >
+                  Lưu
+                </button>
+                <button
+                  onClick={AfterChangePassword}
+                  className="text-slate-950 w-20  border-[2px] h-full rounded-lg hover bg-white hover:bg-black hover:text-white"
+                >
+                  Trở lại
+                </button>
+              </div>
+
+              <button
+                onClick={AfterChangePassword}
+                className="close-modal text-xl hover:text-black text-slate-400 "
+              >
+                x
+              </button>
+            </form>
           </div>
         </div>
       )}

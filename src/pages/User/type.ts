@@ -58,7 +58,7 @@ export interface IImageAttribute extends Omit<IStrapiBaseAttribute, 'publishedAt
 
 export interface IImage {
     image:string | undefined;
-    preview:string;
+    preview:string | never;
     "id": number,
     "attributes": IImageAttribute;
 }

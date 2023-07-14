@@ -8,12 +8,14 @@ import { RiLockPasswordFill } from "react-icons/ri";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/ReactToastify.css";
-import cmclogo from "../assets/cmclogo.png";
+import cmclogo from "../assets/cmc.png";
 import defaultAva from "../assets/defaultAva.png";
 import defaultFood from "../assets/defaultFoodStore.png";
 import { storeUser } from "../helper";
 import { useClickOutside } from "../hook/useClickOutSide";
 
+
+//Fix lại avatar của form đăng nhập 
 interface Stores {
   id: number;
   attributes: {
@@ -391,9 +393,9 @@ export default function HeadNav() {
         {modal && (
           <div className="modal">
             <div className="overlay">
-              <div className="modal-content text-black">
+              <div className="modal-content  text-black">
                 <div className="flex justify-center">
-                  <img src={cmclogo} alt="" className="h-36 w-80" />
+                  <img src={cmclogo} alt="" className="md:h-36 md:w-80 " />
                 </div>
 
                 <button className="close-modal" onClick={toggleModal}>
@@ -401,12 +403,12 @@ export default function HeadNav() {
                 </button>
                 <div className="mt-8">
                   <p>Email</p>
-                  <div className="bg-white h-10 flex justify-center items-center">
+                  <div className="bg-white h-10 flex justify-center items-center rounded-full">
                     <FaUserAlt className="ml-3" />
                     <input
                       type="text"
                       placeholder="Email"
-                      className="w-full pl-3 focus:outline-none"
+                      className="w-full pl-3 focus:outline-none pr-3 rounded-full"
                       name="identifier"
                       value={user.identifier}
                       onChange={handleChange}
@@ -415,12 +417,12 @@ export default function HeadNav() {
                 </div>
                 <div className="mt-4">
                   <p>Password</p>
-                  <div className="bg-white h-10 flex justify-center items-center">
+                  <div className="bg-white h-10 flex justify-center items-center rounded-full">
                     <RiLockPasswordFill className="ml-3" />
                     <input
                       type="password"
                       placeholder="Password"
-                      className="w-full pl-3 focus:outline-none"
+                      className="w-full pl-3 focus:outline-none pr-3 rounded-full"
                       name="password"
                       value={user.password}
                       onChange={handleChange}
@@ -443,7 +445,7 @@ export default function HeadNav() {
                 <div className="mt-10">
                   <button
                     onClick={handleLogin}
-                    className="w-full h-10 items-center bg-[#1676F3]  flex justify-center"
+                    className="w-full h-10 items-center bg-[#1676F3]  flex justify-center hover:opacity-70"
                   >
                     Đăng nhập
                   </button>
@@ -451,7 +453,7 @@ export default function HeadNav() {
                 <div className="mt-8">
                   <div className="flex justify-center">
                     Chưa có tài khoản?{" "}
-                    <Link to={"/register"} className="text-[#1676F3] ml-1">
+                    <Link to={"/register"} className="text-[#1676F3] ml-1 hover:opacity-70">
                       Đăng ký
                     </Link>
                   </div>
